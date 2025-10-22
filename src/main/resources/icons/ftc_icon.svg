@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+    <!-- Rounded square outline -->
+    <rect x="2" y="3" width="16" height="15" rx="4" fill="none" stroke="#CED0D6" stroke-width="1.5"/>
+
+    <!-- Robot eyes -->
+    <circle cx="7" cy="9" r="1" fill="#CED0D6"/>
+    <circle cx="13" cy="9" r="1" fill="#CED0D6"/>
+
+    <!-- Robot mouth -->
+    <rect x="6" y="13" width="8" height="1.5" rx="0.75" fill="#CED0D6"/>
+
+    <!-- Antenna pointing up from the square -->
+    <line x1="10" y1="3" x2="10" y2="1.5" stroke="#CED0D6" stroke-width="1" stroke-linecap="round"/>
+    <circle cx="10" cy="1.5" r="0.8" fill="#CED0D6"/>
+</svg>
