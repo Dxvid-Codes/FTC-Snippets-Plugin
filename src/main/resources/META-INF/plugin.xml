@@ -119,6 +119,19 @@ leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
             <add-to-group group-id="FTCImportsToolbarGroup"/>
         </action>
 
-
+        <action id="FTCDocsSearchAction"
+                class="ontalent.ftcsnippets.FTCDocsSearchAction"
+                text="FTC Docs Search">
+            <add-to-group group-id="FTCImportsToolbarGroup"/>
+        </action>
     </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor
+                language="JAVA"
+                implementationClass="ontalent.ftcsnippets.FTCDocsCompletionContributor"/>
+        <completion.contributor
+                language="kotlin"
+                implementationClass="ontalent.ftcsnippets.FTCDocsCompletionContributor"/>
+    </extensions>
 </idea-plugin>
