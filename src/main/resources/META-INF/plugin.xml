@@ -34,8 +34,8 @@
 <p>Access these features via the editor right-click menu or the main toolbar. Happy coding!</p>
 ]]></change-notes>
 
-DcMotor leftMotor;
-leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
+    DcMotor leftMotor;
+    leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
 
 
     <!-- Support IntelliJ/Android Studio builds 242 through 251 -->
@@ -119,6 +119,21 @@ leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
             <add-to-group group-id="FTCImportsToolbarGroup"/>
         </action>
 
-
+        <action id="FTCDocsSearchAction"
+                class="ontalent.ftcsnippets.FTCDocsSearchAction"
+                text="FTC Docs Search"
+                description="Search the FTC Documentation"
+                icon="icons/external_icon.svg">
+            <add-to-group group-id="FTCImportsToolbarGroup"/>
+        </action>
     </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor
+                language="JAVA"
+                implementationClass="ontalent.ftcsnippets.FTCDocsCompletionContributor"/>
+        <completion.contributor
+                language="kotlin"
+                implementationClass="ontalent.ftcsnippets.FTCDocsCompletionContributor"/>
+    </extensions>
 </idea-plugin>
