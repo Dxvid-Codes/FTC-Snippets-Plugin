@@ -1,27 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 187.82 113.58">
-    <defs>
-        <style>
-            .cls-1 {
-            stroke: #ec2027;
-            }
+<svg id="Main" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 192.82 118.58">
+  <defs>
+    <style>
+      .cls-1 {
+        filter: url(#drop-shadow-3);
+        stroke: #0d67b2;
+      }
 
-            .cls-1, .cls-2, .cls-3 {
-            fill: none;
-            stroke-miterlimit: 10;
-            stroke-width: 14px;
-            }
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke-miterlimit: 10;
+        stroke-width: 14px;
+      }
 
-            .cls-2 {
-            stroke: #fff;
-            }
+      .cls-2 {
+        filter: url(#drop-shadow-1);
+        stroke: #fff;
+      }
 
-            .cls-3 {
-            stroke: #0d67b2;
-            }
-        </style>
-    </defs>
-    <ellipse class="cls-2" cx="87.21" cy="61.07" rx="52.11" ry="37.35"/>
-    <polygon class="cls-1" points="9.17 101.2 23.69 14.38 77.61 67.12 9.17 101.2"/>
-    <polygon class="cls-3" points="92.43 57.79 134.98 10.82 178.35 54.97 139.32 101.2 92.43 57.79"/>
+      .cls-3 {
+        filter: url(#drop-shadow-2);
+        stroke: #ec2027;
+      }
+    </style>
+    <filter id="drop-shadow-1" x="28.09" y="16.71" width="123.22" height="93.71" filterUnits="userSpaceOnUse">
+      <feOffset dx="5" dy="5"/>
+      <feGaussianBlur result="blur" stdDeviation="0"/>
+      <feFlood flood-color="#c4c2c4" flood-opacity="1"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="drop-shadow-2" x="0" y="0" width="94.55" height="118.58" filterUnits="userSpaceOnUse">
+      <feOffset dx="5" dy="5"/>
+      <feGaussianBlur result="blur-2" stdDeviation="0"/>
+      <feFlood flood-color="#c4c2c4" flood-opacity="1"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="drop-shadow-3" x="82.59" y=".63" width="110.23" height="115.68" filterUnits="userSpaceOnUse">
+      <feOffset dx="5" dy="5"/>
+      <feGaussianBlur result="blur-3" stdDeviation="0"/>
+      <feFlood flood-color="#c4c2c4" flood-opacity="1"/>
+      <feComposite in2="blur-3" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <ellipse class="cls-2" cx="87.21" cy="61.07" rx="52.11" ry="37.35"/>
+  <polygon class="cls-3" points="9.17 101.2 23.69 14.38 77.61 67.12 9.17 101.2"/>
+  <polygon class="cls-1" points="92.43 57.79 134.98 10.82 178.35 54.97 139.32 101.2 92.43 57.79"/>
 </svg>
