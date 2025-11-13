@@ -1,25 +1,24 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.17.3"
+    id("org.jetbrains.intellij") version "1.17.4"
     kotlin("jvm") version "2.0.0"
 }
 
 group = "com.ontalent.ftcsnippets"
-version = "1.1.2"
+version = "1.2.0"
 
 repositories {
     mavenCentral()
 }
 
-// Set Java compatibility
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
 
 intellij {
-    version.set("2024.3.7") // or match your IDE
-    type.set("IC") // "IC" = IntelliJ Community, use "AI" for Android Studio plugin
-    updateSinceUntilBuild.set(false)
+    version.set("2024.3.7")
+    type.set("IC") // IntelliJ Community Edition SDK
+    plugins.set(listOf("java")) // ✅ gives access to PSI & inspections
 }
 
 tasks {
@@ -32,29 +31,15 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
+        sinceBuild.set("243") // ✅ matches 2024.3.*
         untilBuild.set("252.*")
-        changeNotes.set(
-            """
-            Initial release of FTC Snippets plugin.
-            Features:
-            - Insert motor imports
-            - Insert servo imports  
-            - Insert sensor imports
-            - Insert IMU imports
-            - Insert vision imports
-            - Insert all FTC imports at once
-            """.trimIndent()
-        )
     }
 
-    // ✅ Correct way to configure runIde task:
     named<org.jetbrains.intellij.tasks.RunIdeTask>("runIde") {
         jvmArgs = listOf("-Xmx1024m", "-XX:ReservedCodeCacheSize=512m")
     }
 
-    // ✅ Correct way to configure buildSearchableOptions task:
     named<org.jetbrains.intellij.tasks.BuildSearchableOptionsTask>("buildSearchableOptions") {
-        enabled = false // Speeds up build
+        enabled = false
     }
 }

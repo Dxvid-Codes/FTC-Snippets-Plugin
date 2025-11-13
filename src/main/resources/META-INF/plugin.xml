@@ -3,11 +3,12 @@
     <name>FTC Snippets</name>
     <vendor>LTC7 Programming team (#23594)</vendor>
 
+    <!-- Dependencies -->
     <depends>com.intellij.modules.platform</depends>
     <depends optional="true" config-file="android-studio.xml">com.android.tools.idea</depends>
 
     <description><![CDATA[
-<p><b>NOTE: This only works with the FTC SDK. You must download that before using this plugin, otherwise it's pointless. </b> </p>
+<p><b>NOTE:</b> This only works with the FTC SDK. You must download that before using this plugin, otherwise it's pointless.</p>
 <p>FTC Snippets adds one-click code templates and import snippets for <b>FIRST Tech Challenge (FTC)</b> robot development.</p>
 
 <p>Features:</p>
@@ -21,33 +22,24 @@
 
 <p>Fill out the form for plugin improvements:
 <a href="https://forms.gle/wPVPQSpShxgDJXgD6">Google Form</a></p>
-
 ]]></description>
 
     <change-notes><![CDATA[
     <ul>
-        <li> Fixing Compatibility Issues with Android Studio </li>
+        <li>Added FTC Error Helper inspection system</li>
+        <li>Improved plugin structure and fixed extension schema</li>
     </ul>
     ]]></change-notes>
 
-DcMotor leftMotor;
-leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
+    <!-- IntelliJ build compatibility -->
+    <idea-version since-build="232" until-build="243.*"/>
 
-
-    <!-- Support IntelliJ/Android Studio builds 242 through 251 -->
-    <idea-version since-build="242" until-build="251.*"/>
-
-    <!-- Keep this only if you really use Kotlin APIs -->
-    <depends>com.intellij.modules.platform</depends>
-    <!-- <depends>org.jetbrains.kotlin</depends> -->
-
+    <!-- Actions -->
     <actions>
-        <!-- Editor Popup Menu group -->
         <group id="FTCImportsGroup" text="FTC Imports" popup="true">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </group>
 
-        <!-- Toolbar group -->
         <group id="FTCImportsToolbarGroup" text="FTC Imports" popup="true" icon="/icons/ftc_icon.svg">
             <add-to-group group-id="MainToolbarRight" anchor="last"/>
         </group>
@@ -114,7 +106,16 @@ leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
             <add-to-group group-id="FTCImportsGroup"/>
             <add-to-group group-id="FTCImportsToolbarGroup"/>
         </action>
-
-
     </actions>
+
+    <!-- Extensions -->
+    <extensions defaultExtensionNs="com.intellij">
+        <localInspection
+                language="JAVA"
+                displayName="FTC Error Helper"
+                groupName="FTC Snippets"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="ontalent.ftcsnippets.FtcErrorInspection"/>
+    </extensions>
 </idea-plugin>
