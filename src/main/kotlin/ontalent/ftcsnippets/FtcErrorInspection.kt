@@ -11,22 +11,19 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
 
             override fun visitMethod(method: PsiMethod) {
                 val methodName = method.name
+                val bodyText = method.body?.text ?: return
 
                 // --- Detect missing waitForStart() ---
-                if (methodName == "runOpMode" && method.body != null) {
-                    val bodyText = method.body!!.text
-                    if (!bodyText.contains("waitForStart()")) {
-                        holder.registerProblem(
-                            method.nameIdentifier ?: return,
-                            "Missing waitForStart(). Your code may run before the match starts.",
-                            InsertWaitForStartQuickFix()
-                        )
-                    }
+                if (methodName == "runOpMode" && !bodyText.contains("waitForStart()")) {
+                    holder.registerProblem(
+                        method.nameIdentifier ?: return,
+                        "Missing waitForStart(). Your code may run before the match starts.",
+                        InsertWaitForStartQuickFix()
+                    )
                 }
 
                 // --- Detect telemetry.addData() without update() ---
-                val body = method.body?.text ?: return
-                if (body.contains("telemetry.addData") && !body.contains("telemetry.update")) {
+                if (bodyText.contains("telemetry.addData") && !bodyText.contains("telemetry.update")) {
                     holder.registerProblem(
                         method.nameIdentifier ?: return,
                         "Telemetry data won't appear without calling telemetry.update().",
@@ -42,9 +39,10 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
                 // --- Detect uninitialized FTC hardwareMap fields ---
                 if (fieldType in listOf("DcMotor", "Servo", "BNO055IMU", "CRServo", "DistanceSensor")) {
                     val containingClass = field.containingClass ?: return
-                    val methods = containingClass.methods
+                    val isInitialized = containingClass.methods.any {
+                        it.text.contains("hardwareMap.get") && it.text.contains(name)
+                    }
 
-                    val isInitialized = methods.any { it.text.contains("hardwareMap.get") && it.text.contains(name) }
                     if (!isInitialized) {
                         holder.registerProblem(
                             field.nameIdentifier ?: return,
@@ -57,18 +55,19 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
         }
     }
 
-    // Quick Fix: Insert waitForStart()
+    // --- Quick Fix: Insert waitForStart() ---
     private class InsertWaitForStartQuickFix : LocalQuickFix {
         override fun getFamilyName() = "Insert waitForStart()"
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val method = descriptor.psiElement.parent as? PsiMethod ?: return
             val factory = JavaPsiFacade.getElementFactory(project)
             val stmt = factory.createStatementFromText("waitForStart();", method)
-            method.body?.addBefore(stmt, method.body?.statements?.firstOrNull())
+            val firstStmt = method.body?.statements?.firstOrNull()
+            method.body?.addBefore(stmt, firstStmt)
         }
     }
 
-    // Quick Fix: Insert telemetry.update()
+    // --- Quick Fix: Insert telemetry.update() ---
     private class InsertTelemetryUpdateQuickFix : LocalQuickFix {
         override fun getFamilyName() = "Insert telemetry.update()"
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
@@ -79,7 +78,7 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
         }
     }
 
-    // Quick Fix: Initialize hardware variable
+    // --- Quick Fix: Initialize hardware variable ---
     private class InsertHardwareMapQuickFix(
         private val type: String,
         private val name: String
@@ -93,11 +92,12 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
             val method = containingClass.findMethodsByName("runOpMode", false).firstOrNull() ?: return
 
             val factory = JavaPsiFacade.getElementFactory(project)
-            val statement = factory.createStatementFromText(
+            val stmt = factory.createStatementFromText(
                 "$name = hardwareMap.get($type.class, \"$name\");",
                 method
             )
-            method.body?.addBefore(statement, method.body?.statements?.firstOrNull())
+            val firstStmt = method.body?.statements?.firstOrNull()
+            method.body?.addBefore(stmt, firstStmt)
         }
     }
 }
