@@ -1,51 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Main" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 192.82 118.58">
-  <defs>
-    <style>
-      .cls-1 {
-        filter: url(#drop-shadow-3);
-        stroke: #0d67b2;
-      }
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 194.79 183.13">
+    <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
+    <defs>
+        <style>
+            .st0 {
+            fill: #f7941d;
+            }
 
-      .cls-1, .cls-2, .cls-3 {
-        fill: none;
-        stroke-miterlimit: 10;
-        stroke-width: 14px;
-      }
+            .st1 {
+            fill: #00a651;
+            }
 
-      .cls-2 {
-        filter: url(#drop-shadow-1);
-        stroke: #fff;
-      }
+            .st2 {
+            fill: #27aae1;
+            }
 
-      .cls-3 {
-        filter: url(#drop-shadow-2);
-        stroke: #ec2027;
-      }
-    </style>
-    <filter id="drop-shadow-1" x="28.09" y="16.71" width="123.22" height="93.71" filterUnits="userSpaceOnUse">
-      <feOffset dx="5" dy="5"/>
-      <feGaussianBlur result="blur" stdDeviation="0"/>
-      <feFlood flood-color="#c4c2c4" flood-opacity="1"/>
-      <feComposite in2="blur" operator="in"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
-    <filter id="drop-shadow-2" x="0" y="0" width="94.55" height="118.58" filterUnits="userSpaceOnUse">
-      <feOffset dx="5" dy="5"/>
-      <feGaussianBlur result="blur-2" stdDeviation="0"/>
-      <feFlood flood-color="#c4c2c4" flood-opacity="1"/>
-      <feComposite in2="blur-2" operator="in"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
-    <filter id="drop-shadow-3" x="82.59" y=".63" width="110.23" height="115.68" filterUnits="userSpaceOnUse">
-      <feOffset dx="5" dy="5"/>
-      <feGaussianBlur result="blur-3" stdDeviation="0"/>
-      <feFlood flood-color="#c4c2c4" flood-opacity="1"/>
-      <feComposite in2="blur-3" operator="in"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
-  </defs>
-  <ellipse class="cls-2" cx="87.21" cy="61.07" rx="52.11" ry="37.35"/>
-  <polygon class="cls-3" points="9.17 101.2 23.69 14.38 77.61 67.12 9.17 101.2"/>
-  <polygon class="cls-1" points="92.43 57.79 134.98 10.82 178.35 54.97 139.32 101.2 92.43 57.79"/>
+            .st3 {
+            fill: #8c8c8c;
+            }
+
+            .st4 {
+            fill: #ed1c24;
+            }
+
+            .st5 {
+            fill: #b300d4;
+            }
+        </style>
+    </defs>
+    <path class="st3" d="M0,88.22c12.14,0,13.85-6.67,13.85-12.66,0-4.79-.68-9.58-1.37-14.37s-1.37-9.41-1.37-14.2c0-15.73,10.26-22.41,24.8-22.41h3.59v9.41h-3.08c-10.09,0-13.51,5.47-13.51,14.71,0,3.93.51,8.04,1.2,12.14.68,4.28,1.2,8.38,1.2,13,.17,10.95-4.62,16.42-12.31,18.47v.34c7.7,1.88,12.49,7.7,12.31,18.64,0,4.62-.51,8.9-1.2,13-.68,4.28-1.2,8.21-1.2,12.31,0,9.58,3.93,14.88,13.51,14.88h3.08v9.41h-3.59c-14.2,0-24.8-6.16-24.8-23.43,0-4.62.68-9.41,1.37-14.03.68-4.62,1.37-9.24,1.37-13.85,0-5.3-1.71-12.66-13.85-12.66v-8.72.02Z"/>
+    <path class="st3" d="M194.79,97.28c-12.14,0-13.85,6.67-13.85,12.66,0,4.79.68,9.58,1.37,14.37s1.37,9.41,1.37,14.2c0,15.73-10.26,22.41-24.8,22.41h-3.59v-9.41h3.08c10.09,0,13.51-5.47,13.51-14.71,0-3.93-.51-8.04-1.2-12.14-.68-4.28-1.2-8.38-1.2-13-.17-10.95,4.62-16.42,12.31-18.47v-.34c-7.7-1.88-12.49-7.7-12.31-18.64,0-4.62.51-8.9,1.2-13,.68-4.28,1.2-8.21,1.2-12.31,0-9.58-3.93-14.88-13.51-14.88h-3.08v-9.41h3.59c14.2,0,24.8,6.16,24.8,23.43,0,4.62-.68,9.41-1.37,14.03-.68,4.62-1.37,9.24-1.37,13.85,0,5.3,1.71,12.66,13.85,12.66v8.72-.02Z"/>
+    <rect class="st2" x="50.18" y="22.33" width="92.62" height="14.32" rx="3.47" ry="3.47"/>
+    <rect class="st0" x="33.26" y="43.91" width="122.99" height="14.32" rx="3.47" ry="3.47"/>
+    <rect class="st1" x="54.74" y="64.3" width="92.62" height="14.32" rx="3.47" ry="3.47"/>
+    <rect class="st4" x="61.68" y="85.56" width="92.62" height="14.32" rx="3.47" ry="3.47"/>
+    <rect class="st5" x="41.72" y="107.9" width="68.55" height="14.32" rx="3.47" ry="3.47"/>
+    <rect class="st0" x="38.9" y="130.68" width="106.94" height="14.32" rx="3.47" ry="3.47"/>
+    <rect class="st4" x="47.36" y="150.63" width="84.6" height="14.32" rx="3.47" ry="3.47"/>
+    <rect class="st5" x="34.02" width="92.62" height="14.32" rx="3.47" ry="3.47"/>
+    <rect class="st1" x="62.98" y="168.81" width="86.76" height="14.32" rx="3.47" ry="3.47"/>
 </svg>

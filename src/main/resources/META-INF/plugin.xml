@@ -5,6 +5,7 @@
 
     <!-- Dependencies -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
     <depends optional="true" config-file="android-studio.xml">com.android.tools.idea</depends>
 
     <description><![CDATA[
@@ -16,6 +17,7 @@
     <li>Automatically inserts the required <code>package org.firstinspires.ftc.teamcode;</code> line</li>
     <li>Adds imports for motors, servos, sensors, IMU, and vision</li>
     <li>Optional injection of TeleOp and Autonomous skeleton code</li>
+    <li><b>NEW:</b> FTC Error Helper - detects common programming mistakes</li>
 </ul>
 
 <p>Boost your productivity and get your robot code running faster!</p>
@@ -26,96 +28,140 @@
 
     <change-notes><![CDATA[
     <ul>
+        <li>Fixed SVG icon sizing for IntelliJ Otter (2024.3+)</li>
         <li>Added FTC Error Helper inspection system</li>
-        <li>Improved plugin structure and fixed extension schema</li>
+        <li>Improved plugin structure and organization</li>
     </ul>
     ]]></change-notes>
 
     <!-- IntelliJ build compatibility -->
-    <idea-version since-build="232" until-build="243.*"/>
+    <idea-version since-build="243" until-build="252.*"/>
 
     <!-- Actions -->
     <actions>
-        <group id="FTCImportsGroup" text="FTC Imports" popup="true">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-        </group>
-
-        <group id="FTCImportsToolbarGroup" text="FTC Imports" popup="true" icon="/icons/ftc_icon.svg">
+        <!-- Main Toolbar Group - Updated for Otter -->
+        <group id="FTCImportsToolbarGroup" text="FTC Tools" popup="true" icon="/icons/toolbar_icon.svg">
+            <!-- Multiple toolbar locations for Otter compatibility -->
             <add-to-group group-id="MainToolbarRight" anchor="last"/>
+            <add-to-group group-id="NavBarToolBar" anchor="last"/>
+
+            <!-- ALL YOUR ORIGINAL SNIPPETS -->
+            <action id="InsertAllImports"
+                    class="ontalent.ftcsnippets.actions.InsertAllImportsAction"
+                    text="All FTC Imports">
+                <keyboard-shortcut first-keystroke="ctrl shift F" keymap="$default"/>
+            </action>
+
+            <separator/>
+
+            <action id="InsertTeleOpImports"
+                    class="ontalent.ftcsnippets.actions.InsertTeleOpImportsAction"
+                    text="TeleOp Skeleton"/>
+
+            <action id="InsertAutonomousImports"
+                    class="ontalent.ftcsnippets.actions.InsertAutonomousImportsAction"
+                    text="Autonomous Skeleton"/>
+
+            <separator/>
+
+            <action id="InsertHardwareMapAction"
+                    class="ontalent.ftcsnippets.actions.InsertHardwareMapAction"
+                    text="HardwareMap Auto Insert"/>
+
+            <separator/>
+
+            <!-- Individual imports -->
+            <action id="InsertMotorImports"
+                    class="ontalent.ftcsnippets.actions.InsertMotorImportsAction"
+                    text="Motor Imports"/>
+
+            <action id="InsertServoImports"
+                    class="ontalent.ftcsnippets.actions.InsertServoImportsAction"
+                    text="Servo Imports"/>
+
+            <action id="InsertSensorImports"
+                    class="ontalent.ftcsnippets.actions.InsertSensorImportsAction"
+                    text="Sensor Imports"/>
+
+            <action id="InsertIMUImports"
+                    class="ontalent.ftcsnippets.actions.InsertIMUImportsAction"
+                    text="IMU Imports"/>
+
+            <action id="InsertVisionImports"
+                    class="ontalent.ftcsnippets.actions.InsertVisionImportsAction"
+                    text="Camera Imports (EasyOpenCV)"/>
         </group>
 
-        <action id="InsertMotorImports"
-                class="ontalent.ftcsnippets.InsertMotorImportsAction"
-                text="Motor Imports">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
-        </action>
+        <!-- Editor Context Menu Group - Keep your original structure -->
+        <group id="FTCImportsGroup" text="FTC Snippets" popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
 
-        <action id="InsertServoImports"
-                class="ontalent.ftcsnippets.InsertServoImportsAction"
-                text="Servo Imports">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
-        </action>
+            <!-- ALL YOUR ORIGINAL SNIPPETS in context menu -->
+            <action id="InsertMotorImportsContext"
+                    class="ontalent.ftcsnippets.actions.InsertMotorImportsAction"
+                    text="Motor Imports"/>
 
-        <action id="InsertSensorImports"
-                class="ontalent.ftcsnippets.InsertSensorImportsAction"
-                text="Sensor Imports">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
-        </action>
+            <action id="InsertServoImportsContext"
+                    class="ontalent.ftcsnippets.actions.InsertServoImportsAction"
+                    text="Servo Imports"/>
 
-        <action id="InsertIMUImports"
-                class="ontalent.ftcsnippets.InsertIMUImportsAction"
-                text="IMU Imports">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
-        </action>
+            <action id="InsertSensorImportsContext"
+                    class="ontalent.ftcsnippets.actions.InsertSensorImportsAction"
+                    text="Sensor Imports"/>
 
-        <action id="InsertVisionImports"
-                class="ontalent.ftcsnippets.InsertVisionImportsAction"
-                text="Camera Imports (EasyOpenCV)">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
-        </action>
+            <action id="InsertIMUImportsContext"
+                    class="ontalent.ftcsnippets.actions.InsertIMUImportsAction"
+                    text="IMU Imports"/>
 
-        <action id="InsertAllImports"
-                class="ontalent.ftcsnippets.InsertAllImportsAction"
-                text="All FTC Imports">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
-        </action>
+            <action id="InsertVisionImportsContext"
+                    class="ontalent.ftcsnippets.actions.InsertVisionImportsAction"
+                    text="Camera Imports (EasyOpenCV)"/>
 
-        <action id="InsertTeleOpImports"
-                class="ontalent.ftcsnippets.InsertTeleOpImportsAction"
-                text="TeleOp Skeleton">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
-        </action>
+            <separator/>
 
-        <action id="InsertAutonomousImports"
-                class="ontalent.ftcsnippets.InsertAutonomousImportsAction"
-                text="Autonomous Skeleton">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
-        </action>
+            <action id="InsertAllImportsContext"
+                    class="ontalent.ftcsnippets.actions.InsertAllImportsAction"
+                    text="All FTC Imports"/>
 
-        <action id="InsertHardwareMapAction"
-                class="ontalent.ftcsnippets.InsertHardwareMapAction"
-                text="HardwareMap Auto Insert">
-            <add-to-group group-id="FTCImportsGroup"/>
-            <add-to-group group-id="FTCImportsToolbarGroup"/>
+            <separator/>
+
+            <action id="InsertTeleOpImportsContext"
+                    class="ontalent.ftcsnippets.actions.InsertTeleOpImportsAction"
+                    text="TeleOp Skeleton"/>
+
+            <action id="InsertAutonomousImportsContext"
+                    class="ontalent.ftcsnippets.actions.InsertAutonomousImportsAction"
+                    text="Autonomous Skeleton"/>
+
+            <separator/>
+
+            <action id="InsertHardwareMapActionContext"
+                    class="ontalent.ftcsnippets.actions.InsertHardwareMapAction"
+                    text="HardwareMap Auto Insert"/>
+        </group>
+
+        <!-- Standalone Error Check Action -->
+        <action id="FTCErrorCheck"
+                class="ontalent.ftcsnippets.actions.FTCErrorCheckAction"
+                text="Check FTC Errors"
+                description="Run FTC error inspection on current file"
+                icon="/icons/error_icon.svg">
+            <!-- Add to multiple toolbar locations -->
+            <add-to-group group-id="MainToolbarRight" anchor="last"/>
+            <add-to-group group-id="NavBarToolBar" anchor="last"/>
+            <keyboard-shortcut first-keystroke="ctrl shift E" keymap="$default"/>
         </action>
     </actions>
 
     <!-- Extensions -->
-    <extensions defaultExtensionNs="com.intellij.codeInspection">
+    <extensions defaultExtensionNs="com.intellij">
         <localInspection
                 language="JAVA"
+                shortName="FtcErrorInspection"
                 displayName="FTC Error Helper"
                 groupName="FTC Snippets"
                 enabledByDefault="true"
                 level="WARNING"
-                implementationClass="ontalent.ftcsnippets.FtcErrorInspection"/>
+                implementationClass="ontalent.ftcsnippets.inspections.FtcErrorInspection"/>
     </extensions>
 </idea-plugin>

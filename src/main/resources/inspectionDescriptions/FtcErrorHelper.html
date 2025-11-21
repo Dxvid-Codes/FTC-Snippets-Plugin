@@ -1,8 +1,141 @@
 <html>
 <body>
+<h1>FTC Error Helper Inspection</h1>
+
 <p>
-    Detects common FTC SDK mistakes such as missing <code>waitForStart()</code>,
-    missing <code>telemetry.update()</code>, or uninitialized hardware devices.
+    Detects common FTC SDK programming errors and provides quick fixes to resolve them.
+    This inspection helps FIRST Tech Challenge teams avoid common pitfalls in their robot code.
+</p>
+
+<h2>Detected Issues</h2>
+
+<h3>Missing waitForStart()</h3>
+<p>
+    <b>Problem:</b> The <code>runOpMode()</code> method doesn't call <code>waitForStart()</code><br>
+    <b>Impact:</b> Code may execute before the match starts, causing unpredictable behavior<br>
+    <b>Quick Fix:</b> Automatically inserts <code>waitForStart();</code> at the beginning of runOpMode()
+</p>
+
+<h3>Missing telemetry.update()</h3>
+<p>
+    <b>Problem:</b> <code>telemetry.addData()</code> is used without calling <code>telemetry.update()</code><br>
+    <b>Impact:</b> Telemetry data won't appear on the Driver Station<br>
+    <b>Quick Fix:</b> Automatically inserts <code>telemetry.update();</code> after telemetry statements
+</p>
+
+<h3>Uninitialized Hardware Devices</h3>
+<p>
+    <b>Problem:</b> Hardware devices (motors, servos, sensors) are declared but not initialized with <code>hardwareMap.get()</code><br>
+    <b>Impact:</b> NullPointerException when trying to use the hardware device<br>
+    <b>Quick Fix:</b> Automatically generates initialization code in <code>runOpMode()</code> or <code>init()</code>
+</p>
+
+<h3>Gamepad Usage Issues</h3>
+<p>
+    <b>Problem:</b> Gamepad button checks without proper conditional statements<br>
+    <b>Impact:</b> Unintended continuous activation or missed button presses<br>
+    <b>Quick Fix:</b> Suggests wrapping in if statements (manual fix required)
+</p>
+
+<h3>Controller Direction Issues</h3>
+<p>
+    <b>Problem:</b> Potential inverted stick axes that may cause unintuitive controls<br>
+    <b>Impact:</b> Confusing driver controls<br>
+    <b>Quick Fix:</b> Information warning about common axis inversion patterns
+</p>
+
+<h3>Missing Annotations</h3>
+<p>
+    <b>Problem:</b> TeleOp/OpMode classes missing required <code>@TeleOp</code> or <code>@Autonomous</code> annotations<br>
+    <b>Impact:</b> OpMode won't appear in Driver Station selection list<br>
+    <b>Quick Fix:</b> Warning to add appropriate annotation
+</p>
+
+<h2>Supported Hardware Types</h2>
+<ul>
+    <li>DcMotor / DcMotorEx</li>
+    <li>Servo / CRServo</li>
+    <li>BNO055IMU (Rev Hub IMU)</li>
+    <li>DistanceSensor</li>
+    <li>ColorSensor</li>
+    <li>Other FTC SDK hardware devices</li>
+</ul>
+
+<h2>How to Use</h2>
+<p>
+    The inspection runs automatically on Java files in your FTC project. When issues are detected:
+</p>
+<ol>
+    <li>Look for highlighted code with warnings/errors</li>
+    <li>Press <code>Alt+Enter</code> (or click the lightbulb) on the highlighted code</li>
+    <li>Select the quick fix to automatically resolve the issue</li>
+</ol>
+
+<h2>Requirements</h2>
+<p>
+    This inspection only activates for classes that extend FTC OpMode classes:
+</p>
+<ul>
+    <li><code>LinearOpMode</code></li>
+    <li><code>OpMode</code></li>
+    <li>Classes with "OpMode" in their name</li>
+</ul>
+
+<h2>Example Quick Fixes</h2>
+
+<h3>Before:</h3>
+<pre><code>
+public void runOpMode() {
+    // Missing waitForStart()
+    motor.setPower(1.0);
+}
+    </code></pre>
+
+<h3>After Quick Fix:</h3>
+<pre><code>
+public void runOpMode() {
+    waitForStart();  // Automatically inserted
+    motor.setPower(1.0);
+}
+    </code></pre>
+
+<h3>Before:</h3>
+<pre><code>
+DcMotor leftMotor;
+// Not initialized with hardwareMap
+
+public void runOpMode() {
+    leftMotor.setPower(0.5);  // NullPointerException!
+}
+    </code></pre>
+
+<h3>After Quick Fix:</h3>
+<pre><code>
+DcMotor leftMotor;
+
+public void runOpMode() {
+    leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");  // Automatically inserted
+    leftMotor.setPower(0.5);
+}
+    </code></pre>
+
+<h2>Troubleshooting</h2>
+<p>
+    If the inspection isn't working:
+</p>
+<ul>
+    <li>Ensure your class extends an FTC OpMode class</li>
+    <li>Check that the FTC SDK is properly imported in your project</li>
+    <li>Verify the plugin is enabled in Settings/Preferences > Plugins</li>
+    <li>Make sure Java inspections are enabled</li>
+</ul>
+
+<hr>
+<p>
+    <small>
+        Part of FTC Snippets plugin for Android Studio.<br>
+        Developed for FIRST Tech Challenge teams.
+    </small>
 </p>
 </body>
 </html>

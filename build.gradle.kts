@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.ontalent.ftcsnippets"
-version = "1.2.0"
+version = "1.2.0"  // Bump version for Otter compatibility
 
 repositories {
     mavenCentral()
@@ -16,9 +16,13 @@ java {
 }
 
 intellij {
-    version.set("2024.3.7")
-    type.set("IC") // IntelliJ Community Edition SDK
-    plugins.set(listOf("java")) // ✅ gives access to PSI & inspections
+    version.set("2024.3.1")  // Updated for Otter
+    type.set("IC")
+    plugins.set(listOf("java"))
+
+    // Speed optimizations
+    downloadSources.set(project.hasProperty("downloadSources"))
+    instrumentCode.set(project.hasProperty("productionBuild"))
 }
 
 tasks {
@@ -31,8 +35,8 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("243") // ✅ matches 2024.3.*
-        untilBuild.set("252.*")
+        sinceBuild.set("243")
+        untilBuild.set("252.*")  // Covers Otter releases
     }
 
     named<org.jetbrains.intellij.tasks.RunIdeTask>("runIde") {
