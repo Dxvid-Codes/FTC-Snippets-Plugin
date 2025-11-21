@@ -1,10 +1,9 @@
-//FTCErrorInspection
-
-package com.ontalent.ftcsnippets.inspections
+package ontalent.ftcsnippets.inspections
 
 import com.intellij.codeInspection.*
 import com.intellij.psi.*
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.command.WriteCommandAction
 
 class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
 
@@ -85,8 +84,9 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
         val isFtcHardware = ftcHardwareTypes.any { fieldType.contains(it) }
 
         if (isFtcHardware) {
+            // Better initialization check - look for hardwareMap.get with this field name
             val isInitialized = containingClass.methods.any { method ->
-                method.body?.text?.contains("hardwareMap.*$fieldName") == true
+                method.body?.text?.contains("$fieldName\\s*=\\s*hardwareMap\\.get".toRegex()) == true
             }
 
             if (!isInitialized) {
@@ -114,11 +114,26 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
         override fun getFamilyName() = "FTC Quick Fixes"
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-            val method = descriptor.psiElement as? PsiMethod ?: return
-            val factory = JavaPsiFacade.getElementFactory(project)
-            val waitForStartStmt = factory.createStatementFromText("waitForStart();", method)
+            WriteCommandAction.runWriteCommandAction(project) {
+                val method = descriptor.psiElement as? PsiMethod ?: return@runWriteCommandAction
+                val factory = JavaPsiFacade.getElementFactory(project)
 
-            method.body?.addAfter(waitForStartStmt, method.body?.firstChild)
+                try {
+                    val waitForStartStmt = factory.createStatementFromText("waitForStart();", method)
+                    val body = method.body ?: return@runWriteCommandAction
+
+                    // Insert at the beginning of the method body
+                    body.addAfter(waitForStartStmt, body.firstChild)
+                } catch (e: Exception) {
+                    // Fallback: try to insert at the start
+                    try {
+                        val waitForStartStmt = factory.createStatementFromText("waitForStart();", method)
+                        method.body?.add(waitForStartStmt)
+                    } catch (e2: Exception) {
+                        // If all fails, do nothing
+                    }
+                }
+            }
         }
     }
 
@@ -128,15 +143,21 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
         override fun getFamilyName() = "FTC Quick Fixes"
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-            val method = descriptor.psiElement as? PsiMethod ?: return
-            val factory = JavaPsiFacade.getElementFactory(project)
-            val updateStmt = factory.createStatementFromText("telemetry.update();", method)
+            WriteCommandAction.runWriteCommandAction(project) {
+                val method = descriptor.psiElement as? PsiMethod ?: return@runWriteCommandAction
+                val factory = JavaPsiFacade.getElementFactory(project)
 
-            method.body?.add(updateStmt)
+                try {
+                    val updateStmt = factory.createStatementFromText("telemetry.update();", method)
+                    method.body?.add(updateStmt)
+                } catch (e: Exception) {
+                    // If fails, do nothing
+                }
+            }
         }
     }
 
-    // Quick Fix for uninitialized hardware
+    // Quick Fix for uninitialized hardware - FIXED VERSION
     private class InitializeHardwareFix(
         private val type: String,
         private val name: String
@@ -145,20 +166,53 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
         override fun getFamilyName() = "FTC Quick Fixes"
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-            val field = descriptor.psiElement as? PsiField ?: return
-            val containingClass = field.containingClass ?: return
+            WriteCommandAction.runWriteCommandAction(project) {
+                val field = descriptor.psiElement as? PsiField ?: return@runWriteCommandAction
+                val containingClass = field.containingClass ?: return@runWriteCommandAction
 
-            val runOpModeMethod = containingClass.findMethodsByName("runOpMode", false).firstOrNull()
-            val method = runOpModeMethod ?: containingClass.findMethodsByName("init", false).firstOrNull() ?: return
+                // Find the best method to insert into
+                val runOpModeMethod = containingClass.findMethodsByName("runOpMode", false).firstOrNull()
+                val initMethod = containingClass.findMethodsByName("init", false).firstOrNull()
+                val method = runOpModeMethod ?: initMethod ?: return@runWriteCommandAction
 
-            val factory = JavaPsiFacade.getElementFactory(project)
-            val shortType = type.substringAfterLast('.')
-            val initStmt = factory.createStatementFromText(
-                "$name = hardwareMap.get($shortType.class, \"$name\");",
-                method
-            )
+                val factory = JavaPsiFacade.getElementFactory(project)
 
-            method.body?.addAfter(initStmt, method.body?.firstChild)
+                // Extract short type name (e.g., "DcMotor" from full path)
+                val shortType = if (type.contains('.')) {
+                    type.substringAfterLast('.')
+                } else {
+                    type
+                }
+
+                try {
+                    // Create the initialization statement
+                    val initStmt = factory.createStatementFromText(
+                        "$name = hardwareMap.get($shortType.class, \"$name\");",
+                        method
+                    )
+
+                    val body = method.body ?: return@runWriteCommandAction
+
+                    // Insert after the first statement in the method body
+                    val firstStmt = body.statements.firstOrNull()
+                    if (firstStmt != null) {
+                        body.addAfter(initStmt, firstStmt)
+                    } else {
+                        body.add(initStmt)
+                    }
+                } catch (e: Exception) {
+                    // Try alternative syntax if first attempt fails
+                    try {
+                        val initStmt = factory.createStatementFromText(
+                            "$name = hardwareMap.get($shortType.class, \"$name\");",
+                            method
+                        )
+                        method.body?.add(initStmt)
+                    } catch (e2: Exception) {
+                        // Final fallback
+                    }
+                }
+            }
         }
     }
 }

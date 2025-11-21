@@ -1,6 +1,6 @@
 /** InsertSensorImportsAction.kt */
 
-package ontalent.ftcsnippets
+package ontalent.ftcsnippets.actions
 
 class InsertSensorImportsAction : AbstractInsertImportsAction() {
     override fun importsBlock(): String = """

@@ -1,6 +1,4 @@
-// AbstractInsertImportsAction.kt
-
-package ontalent.ftcsnippets
+package ontalent.ftcsnippets.actions
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -8,20 +6,10 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Document
 import com.intellij.psi.codeStyle.CodeStyleManager
-import kotlin.math.min
 
-/**
- * Base action for inserting import blocks and optional skeleton code into the current file.
- * Subclasses provide:
- *   - importsBlock(): multiline string of imports
- *   - classSkeleton(): optional code skeleton to insert after imports
- */
 abstract class AbstractInsertImportsAction : AnAction() {
 
-    /** Subclasses return the multiline import block they want inserted. */
     protected abstract fun importsBlock(): String
-
-    /** Subclasses can override to provide a class skeleton (optional). */
     protected open fun classSkeleton(): String = ""
 
     override fun actionPerformed(e: AnActionEvent) {
@@ -31,12 +19,10 @@ abstract class AbstractInsertImportsAction : AnAction() {
         val document: Document = editor.document
 
         val requiredPackage = "package org.firstinspires.ftc.teamcode;"
-
         val imports = importsBlock().trim()
         val skeleton = classSkeleton().trim()
-
-        // Filter out imports already present
         val toAddImports = filterExistingImports(document.text, imports)
+
         if (toAddImports.isBlank() && skeleton.isBlank()) return
 
         WriteCommandAction.runWriteCommandAction(project) {
@@ -51,13 +37,11 @@ abstract class AbstractInsertImportsAction : AnAction() {
                 document.insertString(insertPos, "\n$toAddImports\n\n")
             }
 
-            // Insert skeleton code after imports
             if (skeleton.isNotBlank()) {
                 val offset = document.textLength
                 document.insertString(offset, "\n$skeleton\n")
             }
 
-            // Reformat the file safely
             try {
                 CodeStyleManager.getInstance(project).reformatText(psiFile, 0, document.textLength)
             } catch (_: Exception) {
@@ -66,23 +50,22 @@ abstract class AbstractInsertImportsAction : AnAction() {
         }
     }
 
-    /** Filter out lines that already exist in the file. */
+    override fun update(e: AnActionEvent) {
+        // ALWAYS ENABLED - let actionPerformed handle the logic
+        e.presentation.isEnabled = true
+        e.presentation.isVisible = true
+    }
+
     private fun filterExistingImports(fileText: String, importsBlock: String): String {
         val sb = StringBuilder()
         for (line in importsBlock.lines()) {
             val trimmed = line.trim()
-            if (trimmed.isEmpty()) continue
+            if (trimmed.isEmpty() || trimmed.startsWith("//")) continue
             if (!fileText.contains(trimmed)) sb.append(trimmed).append("\n")
         }
         return sb.toString().trimEnd()
     }
 
-    /**
-     * Determine insert position:
-     *   - After 'package' declaration if present
-     *   - Before first 'import' if present
-     *   - Otherwise start of document
-     */
     private fun findInsertPosition(document: Document): Int {
         val text = document.text
         val lines = text.split("\n")
@@ -93,7 +76,6 @@ abstract class AbstractInsertImportsAction : AnAction() {
                 continue
             }
             if (line.startsWith("import ")) {
-                // insert before first import
                 break
             }
             offset += line.length + 1

@@ -1,6 +1,6 @@
 /** InsertVisionsImportsAction.kt */
 
-package ontalent.ftcsnippets
+package ontalent.ftcsnippets.actions
 
 class InsertVisionImportsAction : AbstractInsertImportsAction() {
     override fun importsBlock(): String = """

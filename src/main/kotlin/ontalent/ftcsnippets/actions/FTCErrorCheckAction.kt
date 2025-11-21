@@ -1,11 +1,8 @@
-// FTCErrorCheckAction.kt
-
 package ontalent.ftcsnippets.actions
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.Messages
-import com.intellij.openapi.project.Project
 
 class FTCErrorCheckAction : AnAction("Check FTC Errors", "Run FTC error inspection on current file", null) {
     override fun actionPerformed(e: AnActionEvent) {
@@ -25,7 +22,8 @@ class FTCErrorCheckAction : AnAction("Check FTC Errors", "Run FTC error inspecti
     }
 
     override fun update(e: AnActionEvent) {
-        val project = e.project
-        e.presentation.isEnabled = project != null
+        // ALWAYS ENABLED - consistent with other actions
+        e.presentation.isEnabled = true
+        e.presentation.isVisible = true
     }
 }

@@ -1,6 +1,6 @@
 // FTCDcosSearchAction.kt
 
-package ontalent.ftcsnippets
+package ontalent.ftcsnippets.actions
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

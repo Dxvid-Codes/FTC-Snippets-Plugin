@@ -1,6 +1,6 @@
 /** InsertAllImportsAction.kt */
 
-package ontalent.ftcsnippets
+package ontalent.ftcsnippets.actions
 
 class InsertAllImportsAction : AbstractInsertImportsAction() {
     override fun importsBlock(): String = """

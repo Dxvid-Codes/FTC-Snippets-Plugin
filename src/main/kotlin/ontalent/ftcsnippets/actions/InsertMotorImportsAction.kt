@@ -1,6 +1,6 @@
 /** InserMotorImportsAction.kt */
 
-package ontalent.ftcsnippets
+package ontalent.ftcsnippets.actions
 
 class InsertMotorImportsAction : AbstractInsertImportsAction() {
     override fun importsBlock(): String = """

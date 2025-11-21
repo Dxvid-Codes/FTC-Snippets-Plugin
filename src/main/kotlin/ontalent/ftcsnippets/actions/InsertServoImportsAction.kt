@@ -1,6 +1,6 @@
 /** InsertServoImportsAction.kt  */
 
-package ontalent.ftcsnippets
+package ontalent.ftcsnippets.actions
 
 class InsertServoImportsAction : AbstractInsertImportsAction() {
     override fun importsBlock(): String = """

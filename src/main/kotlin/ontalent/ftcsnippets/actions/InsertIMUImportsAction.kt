@@ -1,6 +1,6 @@
 /** InsertIMUImportsAction.kt */
 
-package ontalent.ftcsnippets
+package ontalent.ftcsnippets.actions
 
 class InsertIMUImportsAction : AbstractInsertImportsAction() {
     override fun importsBlock(): String = """
