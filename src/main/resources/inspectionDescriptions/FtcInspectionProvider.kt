@@ -1,3 +1,5 @@
+//FtcInspectionProvider
+
 package ontalent.ftcsnippets.inspections
 
 import com.intellij.codeInspection.LocalInspectionTool

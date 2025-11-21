@@ -1,3 +1,5 @@
+//InsertAutonomousImportsAction.kt
+
 package ontalent.ftcsnippets
 
 import com.intellij.openapi.actionSystem.AnActionEvent

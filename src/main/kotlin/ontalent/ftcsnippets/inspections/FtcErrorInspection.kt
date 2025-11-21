@@ -1,3 +1,5 @@
+//FTCErrorInspection
+
 package com.ontalent.ftcsnippets.inspections
 
 import com.intellij.codeInspection.*

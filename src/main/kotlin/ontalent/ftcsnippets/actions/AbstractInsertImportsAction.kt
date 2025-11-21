@@ -1,3 +1,5 @@
+// AbstractInsertImportsAction.kt
+
 package ontalent.ftcsnippets
 
 import com.intellij.openapi.actionSystem.AnAction

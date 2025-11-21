@@ -1,3 +1,5 @@
+<!-- plugin.xml -->
+
 <idea-plugin>
     <id>com.ontalent.ftcsnippets</id>
     <name>FTC Snippets</name>

@@ -1,3 +1,5 @@
+// FTCErrorCheckAction.kt
+
 package ontalent.ftcsnippets.actions
 
 import com.intellij.openapi.actionSystem.AnAction

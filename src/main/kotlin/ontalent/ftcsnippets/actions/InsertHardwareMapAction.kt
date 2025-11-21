@@ -1,3 +1,5 @@
+//InsertHardwareMap.kt
+
 package ontalent.ftcsnippets
 
 import com.intellij.openapi.command.WriteCommandAction
