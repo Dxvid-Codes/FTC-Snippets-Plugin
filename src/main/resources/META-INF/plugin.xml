@@ -6,7 +6,6 @@
     <!-- Dependencies -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>
-    <depends optional="true" config-file="android-studio.xml">com.android.tools.idea</depends>
 
     <description><![CDATA[
 <p><b>NOTE:</b> This only works with the FTC SDK. You must download that before using this plugin, otherwise it's pointless.</p>
@@ -17,7 +16,7 @@
     <li>Automatically inserts the required <code>package org.firstinspires.ftc.teamcode;</code> line</li>
     <li>Adds imports for motors, servos, sensors, IMU, and vision</li>
     <li>Optional injection of TeleOp and Autonomous skeleton code</li>
-    <li><b>NEW:</b> FTC Error Helper - detects common programming mistakes</li>
+    <li>Quickly search the FTC docs for a reference or sample code</li>
 </ul>
 
 <p>Boost your productivity and get your robot code running faster!</p>
@@ -30,7 +29,7 @@
     <ul>
         <li>Fixed action conflicts and duplicate IDs</li>
         <li>Fixed SVG icon sizing for IntelliJ Otter (2024.3+)</li>
-        <li>Added FTC Error Helper inspection system</li>
+        <li>Changed Icon for a fresh look</li>
     </ul>
     ]]></change-notes>
 
@@ -87,6 +86,11 @@
                 text="Camera Imports (EasyOpenCV)"
                 description="Insert vision-related imports"/>
 
+        <action id="FTC.DocsSearch"
+                class="ontalent.ftcsnippets.actions.FTCDocsSearchAction"
+                text="Search FTC Documentation"
+                description="Check the documentation for any questions"/>
+
         <action id="FTC.ErrorCheck"
                 class="ontalent.ftcsnippets.actions.FTCErrorCheckAction"
                 text="Check FTC Errors"
@@ -112,6 +116,8 @@
             <reference ref="FTC.SensorImports"/>
             <reference ref="FTC.IMUImports"/>
             <reference ref="FTC.VisionImports"/>
+            <separator/>
+            <reference ref="FTC.DocsSearch"/>
         </group>
 
         <!-- Editor Context Menu Group -->
@@ -130,14 +136,18 @@
             <reference ref="FTC.Autonomous"/>
             <separator/>
             <reference ref="FTC.HardwareMap"/>
+            <separator/>
+            <reference ref="FTC.DocsSearch"/>
+
         </group>
 
-        <!-- Standalone Error Check in Toolbar -->
+        <!-- Standalone Error Check in Toolbar
         <group id="FTC.Error.Group">
             <add-to-group group-id="MainToolbarRight" anchor="last"/>
             <add-to-group group-id="NavBarToolBar" anchor="last"/>
             <reference ref="FTC.ErrorCheck"/>
         </group>
+        -->
     </actions>
 
     <!-- Extensions -->
