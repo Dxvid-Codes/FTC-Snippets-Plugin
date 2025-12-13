@@ -11,7 +11,7 @@
 <p><b>NOTE:</b> This only works with the FTC SDK. You must download that before using this plugin, otherwise it's pointless.</p>
 <p>FTC Snippets adds one-click code templates and import snippets for <b>FIRST Tech Challenge (FTC)</b> robot development.</p>
 
-<p>Features:</p>
+<p><b>Features:</b></p>
 <ul>
     <li>Automatically inserts the required <code>package org.firstinspires.ftc.teamcode;</code> line</li>
     <li>Adds imports for motors, servos, sensors, IMU, and vision</li>
@@ -26,6 +26,7 @@
 ]]></description>
 
     <change-notes><![CDATA[
+    <p><b>Changes: </b></p>
     <ul>
         <li>Fixed action conflicts and duplicate IDs</li>
         <li>Fixed SVG icon sizing for IntelliJ Otter (2024.3+)</li>
@@ -90,7 +91,7 @@
                 class="ontalent.ftcsnippets.actions.FTCDocsSearchAction"
                 text="Search FTC Documentation"
                 description="Check the documentation for any questions"/>
-
+        <!--
         <action id="FTC.ErrorCheck"
                 class="ontalent.ftcsnippets.actions.FTCErrorCheckAction"
                 text="Check FTC Errors"
@@ -98,6 +99,12 @@
                 icon="/icons/error_icon.svg">
             <keyboard-shortcut first-keystroke="ctrl shift E" keymap="$default"/>
         </action>
+        -->
+
+        <action id="FTC.PedroToRoadrunner"
+                class="ontalent.ftcsnippets.actions.PedroToRoadrunnerAction"
+                text="Convert Pedro coordinates to roadrunner"
+                description="Converts the Pedro coordinate system to roadrunners coordinate system"/>
 
         <!-- Main Toolbar Group -->
         <group id="FTC.Toolbar.Group" text="FTC Tools" popup="true" icon="/icons/toolbar_icon.svg">
@@ -117,6 +124,7 @@
             <reference ref="FTC.IMUImports"/>
             <reference ref="FTC.VisionImports"/>
             <separator/>
+            <reference ref="FTC.PedroToRoadrunner"/>
             <reference ref="FTC.DocsSearch"/>
         </group>
 
@@ -137,6 +145,7 @@
             <separator/>
             <reference ref="FTC.HardwareMap"/>
             <separator/>
+            <reference ref="FTC.PedroToRoadrunner"/>
             <reference ref="FTC.DocsSearch"/>
 
         </group>
