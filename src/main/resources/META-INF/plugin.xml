@@ -103,7 +103,7 @@
 
         <action id="FTC.PedroToRoadrunner"
                 class="ontalent.ftcsnippets.actions.PedroToRoadrunnerAction"
-                text="Convert Pedro coordinates to roadrunner"
+                text="Convert Pedro to roadrunner"
                 description="Converts the Pedro coordinate system to roadrunners coordinate system"/>
 
         <!-- Main Toolbar Group -->

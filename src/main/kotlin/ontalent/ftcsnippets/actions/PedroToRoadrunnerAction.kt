@@ -51,8 +51,8 @@ class PedroToRoadrunnerAction : AnAction() {
 
                 val rrX = x - FIELD_HALF_SIZE
                 val rrY = y - FIELD_HALF_SIZE
-                val rrHeading = Math.toRadians(headingDeg)
 
+                val rrHeading = Math.toRadians(headingDeg)
                 val newExprText = "new Pose2d($rrX, $rrY, $rrHeading)"
 
                 val newExpr = factory.createExpressionFromText(newExprText, expr)

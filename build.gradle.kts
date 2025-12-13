@@ -6,8 +6,7 @@ plugins {
 }
 
 group = "com.ontalent.ftcsnippets"
-version = "1.2.0"  // Bump version for Otter compatibility
-
+version = "1.3.0"
 repositories {
     mavenCentral()
 }
