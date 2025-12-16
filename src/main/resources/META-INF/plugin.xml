@@ -28,9 +28,7 @@
     <change-notes><![CDATA[
     <p><b>Changes: </b></p>
     <ul>
-        <li>Fixed action conflicts and duplicate IDs</li>
-        <li>Fixed SVG icon sizing for IntelliJ Otter (2024.3+)</li>
-        <li>Changed Icon for a fresh look</li>
+        <li>Added Pedro to roadrunner</li>
     </ul>
     ]]></change-notes>
 
