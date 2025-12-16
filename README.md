@@ -13,8 +13,7 @@ If you want to request a feature, please fill out this form right here: [Google 
 
 There are many ways to install the Plugin
 
-1. Download from IntelliJ
-   [Jetbrains Marketplace](jetbrains-marketplacehttps://plugins.jetbrains.com/plugin/28911-ftc-snippets)
+1. Download from IntelliJ Marketplace: [Jetbrains Marketplace](jetbrains-marketplacehttps://plugins.jetbrains.com/plugin/28911-ftc-snippets)
 
 2. Downloading version from github, go to the releases tab.
 
