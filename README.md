@@ -8,7 +8,7 @@ A lightweight Android Studio / IntelliJ plugin that provides useful **FTC code s
 - Supports Java Only.
 - Works seamlessly in IntelliJ and Android Studio
 
-If you want to request a feature, please fill out this form right here: [https://docs.google.com/forms/d/e/1FAIpQLSfiPetSgcHS7rM5jUP8UZqCLXNSI1tj04dkuW9TgNxn5z_iNg/viewform?pli=1](Google-form)
+If you want to request a feature, please fill out this form right here: [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfiPetSgcHS7rM5jUP8UZqCLXNSI1tj04dkuW9TgNxn5z_iNg/viewform?pli=1)
 ## Installation
 
 There are many ways to install the Plugin
