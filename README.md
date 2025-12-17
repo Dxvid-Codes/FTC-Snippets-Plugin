@@ -16,7 +16,7 @@ There are many ways to install the Plugin
 1. Download from Jetbrains Marketplace: [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/28911-ftc-snippets)
 
 
-2. Downloading version from github, go to the releases tab.
+2. Downloading beta version from github, go to the releases tab.
 
 3. Clone the repository:  
    ```bash
