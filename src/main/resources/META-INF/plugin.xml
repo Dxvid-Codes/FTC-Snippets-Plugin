@@ -28,7 +28,10 @@
     <change-notes><![CDATA[
     <p><b>Changes: </b></p>
     <ul>
-        <li>Added Pedro to roadrunner</li>
+        <li>Added Pedro to roadrunner converter</li>
+        <li>Added Roadrunner to Pedro converter</li>
+        <li>Fixed IMU Imports</li>
+        <li>Removed the button for All Imports but the shortcut still exists (CTRL+SHIFT+F). as well as the button inside the context menu</li>
     </ul>
     ]]></change-notes>
 
@@ -104,13 +107,16 @@
                 text="Convert Pedro to roadrunner"
                 description="Converts the Pedro coordinate system to roadrunners coordinate system"/>
 
+        <action id="FTC.RoadrunnerToPedro"
+                class="ontalent.ftcsnippets.actions.RoadrunnerToPedroAction"
+                text="Convert Roadrunner to Pedro"
+                description="Converts the Roadrunner coordinate system to Pedro's roadrunner system"/>
+
         <!-- Main Toolbar Group -->
         <group id="FTC.Toolbar.Group" text="FTC Tools" popup="true" icon="/icons/toolbar_icon.svg">
             <add-to-group group-id="MainToolbarRight" anchor="last"/>
             <add-to-group group-id="NavBarToolBar" anchor="last"/>
 
-            <reference ref="FTC.AllImports"/>
-            <separator/>
             <reference ref="FTC.TeleOp"/>
             <reference ref="FTC.Autonomous"/>
             <separator/>
@@ -123,6 +129,8 @@
             <reference ref="FTC.VisionImports"/>
             <separator/>
             <reference ref="FTC.PedroToRoadrunner"/>
+            <reference ref="FTC.RoadrunnerToPedro"/>
+            <separator/>
             <reference ref="FTC.DocsSearch"/>
         </group>
 
@@ -130,13 +138,13 @@
         <group id="FTC.Context.Group" text="FTC Snippets" popup="true">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
 
+            <reference ref="FTC.AllImports"/>
+            <separator/>
             <reference ref="FTC.MotorImports"/>
             <reference ref="FTC.ServoImports"/>
             <reference ref="FTC.SensorImports"/>
             <reference ref="FTC.IMUImports"/>
             <reference ref="FTC.VisionImports"/>
-            <separator/>
-            <reference ref="FTC.AllImports"/>
             <separator/>
             <reference ref="FTC.TeleOp"/>
             <reference ref="FTC.Autonomous"/>
@@ -144,6 +152,8 @@
             <reference ref="FTC.HardwareMap"/>
             <separator/>
             <reference ref="FTC.PedroToRoadrunner"/>
+            <reference ref="FTC.RoadrunnerToPedro"/>
+            <separator/>
             <reference ref="FTC.DocsSearch"/>
 
         </group>

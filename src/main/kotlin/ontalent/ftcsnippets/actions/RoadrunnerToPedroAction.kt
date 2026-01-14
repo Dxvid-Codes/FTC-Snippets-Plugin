@@ -7,7 +7,7 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.ui.Messages
 import kotlin.math.PI
 
-abstract class RoadrunnerToPedroAction : AnAction("Convert RoadRunner → Pedro") {
+class RoadrunnerToPedroAction : AnAction("Convert RoadRunner → Pedro") {
 
     private val fieldHalf = 72.0
 

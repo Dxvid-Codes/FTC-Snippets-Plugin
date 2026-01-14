@@ -21,4 +21,3 @@ There are many ways to install the Plugin
 3. Clone the repository:  
    ```bash
    git clone https://github.com/username/ftc-snippets.git
-
