@@ -58,10 +58,10 @@
                 text="Autonomous Skeleton"
                 description="Insert Autonomous template code"/>
 
-        <action id="FTC.HardwareMap"
-                class="ontalent.ftcsnippets.actions.InsertHardwareMapAction"
-                text="HardwareMap Auto Insert"
-                description="Generate hardware initialization code"/>
+        <action id="FTC.SmartHardwareMap"
+                class="ontalent.ftcsnippets.actions.SmartHardwareMapAction"
+                text="Generate HardwareMap"
+                description="Automatically generates missing hardwareMap initializations"/>
 
         <action id="FTC.MotorImports"
                 class="ontalent.ftcsnippets.actions.InsertMotorImportsAction"
