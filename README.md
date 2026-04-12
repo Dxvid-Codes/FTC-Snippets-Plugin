@@ -5,8 +5,8 @@ A lightweight Android Studio / IntelliJ plugin that provides useful **FTC code s
 ## Features
 
 - Quick insert snippets for FTC programming
-- Supports Java Only.
-- Works seamlessly in IntelliJ and Android Studio
+- Java Only.
+- Works seamlessly in Android Studio
 
 If you want to request a feature, please fill out this form right here: [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfiPetSgcHS7rM5jUP8UZqCLXNSI1tj04dkuW9TgNxn5z_iNg/viewform?pli=1)
 ## Installation
