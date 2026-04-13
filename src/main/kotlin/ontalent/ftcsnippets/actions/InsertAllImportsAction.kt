@@ -1,9 +1,10 @@
-/** InsertAllImportsAction.kt */
-
 package ontalent.ftcsnippets.actions
 
-class InsertAllImportsAction : AbstractInsertImportsAction() {
-    override fun importsBlock(): String = """
+class InsertAllImportsAction : AbstractInsertImportsAction(
+    text = "Insert All Imports",
+    description = "Imports all supported imports"
+) {
+    override fun getInsertText(): String = """
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
         import com.qualcomm.robotcore.hardware.Servo;

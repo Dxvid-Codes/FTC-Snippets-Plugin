@@ -20,18 +20,11 @@ class RoadrunnerToPedroAction : AnAction("Convert RoadRunner → Pedro") {
         val start = if (selection.hasSelection()) selection.selectionStart else 0
         val end = if (selection.hasSelection()) selection.selectionEnd else document.textLength
 
-        val originalText = document.getText(
-            com.intellij.openapi.util.TextRange(start, end)
-        )
-
+        val originalText = document.getText(com.intellij.openapi.util.TextRange(start, end))
         val convertedText = convertRoadRunnerCode(originalText)
 
         if (originalText == convertedText) {
-            Messages.showInfoMessage(
-                project,
-                "No RoadRunner-style coordinates found.",
-                "RoadRunner → Pedro"
-            )
+            Messages.showInfoMessage(project, "No RoadRunner-style coordinates found.", "RoadRunner → Pedro")
             return
         }
 
@@ -41,36 +34,22 @@ class RoadrunnerToPedroAction : AnAction("Convert RoadRunner → Pedro") {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible =
-            e.getData(CommonDataKeys.EDITOR) != null
+        e.presentation.isEnabledAndVisible = e.getData(CommonDataKeys.EDITOR) != null
     }
 
     private fun convertRoadRunnerCode(text: String): String {
-        var result = text
+        // Only converts Pose2d — heading third arg goes from radians back to degrees
+        // Scoped tightly to new Pose2d(...) to avoid touching unrelated numbers
+        val poseRegex = Regex("""new\s+Pose2d\s*\(\s*([-0-9.]+)\s*,\s*([-0-9.]+)\s*,\s*([-0-9.]+)\s*\)""")
 
-        // Convert Pose2d(x, y)
-        val poseRegex =
-            Regex("""new\s+Pose2d\s*\(\s*([-0-9.]+)\s*,\s*([-0-9.]+)\s*\)""")
-
-        result = result.replace(poseRegex) { match ->
+        return text.replace(poseRegex) { match ->
             val x = match.groupValues[1].toDouble() + fieldHalf
             val y = match.groupValues[2].toDouble() + fieldHalf
-            "new Pose(${format(x)}, ${format(y)})"
+            val headingRad = match.groupValues[3].toDouble()
+            val headingDeg = headingRad * 180.0 / PI
+            "new Pose(${format(x)}, ${format(y)}, ${format(headingDeg)})"
         }
-
-        // Convert raw radians -> degrees
-        val radRegex =
-            Regex("""(?<!toRadians)\(\s*([-0-9.]+)\s*\)""")
-
-        result = result.replace(radRegex) { match ->
-            val rad = match.groupValues[1].toDouble()
-            val deg = rad * 180.0 / PI
-            "Math.toRadians(${format(deg)})"
-        }
-
-        return result
     }
 
-    private fun format(value: Double): String =
-        String.format("%.4f", value)
+    private fun format(value: Double): String = String.format("%.4f", value)
 }

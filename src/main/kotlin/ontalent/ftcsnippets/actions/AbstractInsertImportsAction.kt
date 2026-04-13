@@ -4,82 +4,112 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.editor.Document
+import com.intellij.psi.*
 import com.intellij.psi.codeStyle.CodeStyleManager
 
-abstract class AbstractInsertImportsAction : AnAction() {
+abstract class AbstractInsertImportsAction(
+    text: String,
+    description: String
+) : AnAction(text, description, null) {
 
-    protected abstract fun importsBlock(): String
-    protected open fun classSkeleton(): String = ""
-
-    override fun actionPerformed(e: AnActionEvent) {
+    final override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
-        val editor = e.getData(CommonDataKeys.EDITOR) ?: return
-        val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: return
-        val document: Document = editor.document
-
-        val requiredPackage = "package org.firstinspires.ftc.teamcode;"
-        val imports = importsBlock().trim()
-        val skeleton = classSkeleton().trim()
-        val toAddImports = filterExistingImports(document.text, imports)
-
-        if (toAddImports.isBlank() && skeleton.isBlank()) return
+        val psiFile = e.getData(CommonDataKeys.PSI_FILE) as? PsiJavaFile ?: return
 
         WriteCommandAction.runWriteCommandAction(project) {
-            val fileText = document.text
+            val elementFactory = JavaPsiFacade.getElementFactory(project)
 
-            if(!fileText.contains(requiredPackage)) {
-                document.insertString(0, "$requiredPackage\n\n")
+            // 1. Handle Package Declaration
+            val correctPackage = getCorrectPackageFromPath(psiFile)
+            if (correctPackage != null) {
+                val packageStatement = psiFile.packageStatement
+                if (packageStatement == null) {
+                    val newPackageStatement = elementFactory.createPackageStatement(correctPackage)
+                    psiFile.addBefore(newPackageStatement, psiFile.firstChild)
+                } else if (packageStatement.packageName != correctPackage) {
+                    val newPackageStatement = elementFactory.createPackageStatement(correctPackage)
+                    packageStatement.replace(newPackageStatement)
+                }
             }
 
-            if (toAddImports.isNotBlank()) {
-                val insertPos = findInsertPosition(document)
-                document.insertString(insertPos, "\n$toAddImports\n\n")
+            // 2. Handle Import Insertion
+            val importList = psiFile.importList
+            if (importList != null) {
+                val importsToAdd = getInsertText().split("\n")
+                    .map { it.trim() }
+                    .filter { it.startsWith("import ") }
+                    .map { it.removePrefix("import ").removeSuffix(";").trim() }
+
+                for (importPath in importsToAdd) {
+                    if (importList.findSingleImportStatement(importPath) == null) {
+                        try {
+                            val psiClass = JavaPsiFacade.getInstance(project)
+                                .findClass(importPath, psiFile.resolveScope)
+
+                            val statement = if (psiClass != null) {
+                                elementFactory.createImportStatement(psiClass)
+                            } else {
+                                val ref = elementFactory.createReferenceElementByFQClassName(
+                                    importPath, psiFile.resolveScope
+                                )
+                                elementFactory.createImportStatement(ref.element as? PsiClass ?: continue)
+                            }
+                            importList.add(statement)
+                        } catch (ex: Exception) {
+                            continue
+                        }
+                    }
+                }
             }
 
-            if (skeleton.isNotBlank()) {
-                val offset = document.textLength
-                document.insertString(offset, "\n$skeleton\n")
-            }
-
+            // 3. Reformat
             try {
-                CodeStyleManager.getInstance(project).reformatText(psiFile, 0, document.textLength)
-            } catch (_: Exception) {
-                // ignore formatting exceptions
+                CodeStyleManager.getInstance(project).reformat(psiFile)
+            } catch (ex: Exception) {
             }
+        }
+    }
+
+    protected abstract fun getInsertText(): String
+
+    private fun getCorrectPackageFromPath(psiFile: PsiFile): String? {
+        val virtualFile = psiFile.virtualFile ?: return null
+        val filePath = virtualFile.path.replace('\\', '/')
+        val basePackage = "org.firstinspires.ftc.teamcode"
+
+        val patterns = listOf("/teamcode/", "/TeamCode/")
+        var teamcodeIndex = -1
+        var foundPattern = ""
+
+        for (pattern in patterns) {
+            val index = filePath.indexOf(pattern)
+            if (index != -1) {
+                teamcodeIndex = index
+                foundPattern = pattern
+                break
+            }
+        }
+
+        // File is not inside a teamcode folder at all
+        if (teamcodeIndex == -1) return basePackage
+
+        // Everything after /teamcode/ up to the filename
+        val afterTeamcode = filePath.substring(teamcodeIndex + foundPattern.length)
+        val lastSlash = afterTeamcode.lastIndexOf('/')
+
+        return if (lastSlash == -1) {
+            // File is directly in teamcode/
+            basePackage
+        } else {
+            // File is in a subfolder e.g. teamcode/autonomous/
+            val subPath = afterTeamcode.substring(0, lastSlash).trim('/')
+            "$basePackage.${subPath.replace('/', '.')}"
         }
     }
 
     override fun update(e: AnActionEvent) {
-        // ALWAYS ENABLED - let actionPerformed handle the logic
-        e.presentation.isEnabled = true
+        val editor = e.getData(CommonDataKeys.EDITOR)
         e.presentation.isVisible = true
-    }
-
-    private fun filterExistingImports(fileText: String, importsBlock: String): String {
-        val sb = StringBuilder()
-        for (line in importsBlock.lines()) {
-            val trimmed = line.trim()
-            if (trimmed.isEmpty() || trimmed.startsWith("//")) continue
-            if (!fileText.contains(trimmed)) sb.append(trimmed).append("\n")
-        }
-        return sb.toString().trimEnd()
-    }
-
-    private fun findInsertPosition(document: Document): Int {
-        val text = document.text
-        val lines = text.split("\n")
-        var offset = 0
-        for (line in lines) {
-            if (line.startsWith("package ")) {
-                offset += line.length + 1
-                continue
-            }
-            if (line.startsWith("import ")) {
-                break
-            }
-            offset += line.length + 1
-        }
-        return offset.coerceAtMost(document.textLength)
+        e.presentation.isEnabled = editor != null
     }
 }

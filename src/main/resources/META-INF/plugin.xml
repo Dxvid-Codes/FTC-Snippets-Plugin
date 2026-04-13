@@ -13,7 +13,6 @@
 
 <p><b>Features:</b></p>
 <ul>
-    <li>Automatically inserts the required <code>package org.firstinspires.ftc.teamcode;</code> line</li>
     <li>Adds imports for motors, servos, sensors, IMU, and vision</li>
     <li>Optional injection of TeleOp and Autonomous skeleton code</li>
     <li>Quickly search the FTC docs for a reference or sample code</li>
@@ -26,12 +25,11 @@
 ]]></description>
 
     <change-notes><![CDATA[
-    <p><b>Changes: </b></p>
+    <p><b>Changes: (sorry for the wait, im just a solo dev!)</b></p>
     <ul>
-        <li>Added Pedro to roadrunner converter</li>
-        <li>Added Roadrunner to Pedro converter</li>
-        <li>Fixed IMU Imports</li>
-        <li>Removed the button for All Imports but the shortcut still exists (CTRL+SHIFT+F). as well as the button inside the context menu</li>
+        <li>Fixed Package issue, now it will be based on where the script lives instead of a set line</li>
+        <li>Expanded compatibility, now the plugin can be used on the latest version of android studio. as well as far back as 2023.1</li>
+
     </ul>
     ]]></change-notes>
 
@@ -92,35 +90,27 @@
                 class="ontalent.ftcsnippets.actions.FTCDocsSearchAction"
                 text="Search FTC Documentation"
                 description="Check the documentation for any questions"/>
-        <!--
-        <action id="FTC.ErrorCheck"
-                class="ontalent.ftcsnippets.actions.FTCErrorCheckAction"
-                text="Check FTC Errors"
-                description="Run FTC error inspection on current file"
-                icon="/icons/error_icon.svg">
-            <keyboard-shortcut first-keystroke="ctrl shift E" keymap="$default"/>
-        </action>
-        -->
 
         <action id="FTC.PedroToRoadrunner"
                 class="ontalent.ftcsnippets.actions.PedroToRoadrunnerAction"
-                text="Convert Pedro to roadrunner"
-                description="Converts the Pedro coordinate system to roadrunners coordinate system"/>
+                text="Convert Pedro to Roadrunner"
+                description="Converts the Pedro coordinate system to roadrunner's coordinate system"/>
 
         <action id="FTC.RoadrunnerToPedro"
                 class="ontalent.ftcsnippets.actions.RoadrunnerToPedroAction"
                 text="Convert Roadrunner to Pedro"
-                description="Converts the Roadrunner coordinate system to Pedro's roadrunner system"/>
+                description="Converts the Roadrunner coordinate system to Pedro's coordinate system"/>
 
         <!-- Main Toolbar Group -->
         <group id="FTC.Toolbar.Group" text="FTC Tools" popup="true" icon="/icons/toolbar_icon.svg">
             <add-to-group group-id="MainToolbarRight" anchor="last"/>
             <add-to-group group-id="NavBarToolBar" anchor="last"/>
+           <!-- <add-to-group group-id="MainToolbar" anchor="last"/> -->
 
             <reference ref="FTC.TeleOp"/>
             <reference ref="FTC.Autonomous"/>
             <separator/>
-            <reference ref="FTC.HardwareMap"/>
+            <reference ref="FTC.SmartHardwareMap"/>
             <separator/>
             <reference ref="FTC.MotorImports"/>
             <reference ref="FTC.ServoImports"/>
@@ -149,22 +139,13 @@
             <reference ref="FTC.TeleOp"/>
             <reference ref="FTC.Autonomous"/>
             <separator/>
-            <reference ref="FTC.HardwareMap"/>
+            <reference ref="FTC.SmartHardwareMap"/>
             <separator/>
             <reference ref="FTC.PedroToRoadrunner"/>
             <reference ref="FTC.RoadrunnerToPedro"/>
             <separator/>
             <reference ref="FTC.DocsSearch"/>
-
         </group>
-
-        <!-- Standalone Error Check in Toolbar
-        <group id="FTC.Error.Group">
-            <add-to-group group-id="MainToolbarRight" anchor="last"/>
-            <add-to-group group-id="NavBarToolBar" anchor="last"/>
-            <reference ref="FTC.ErrorCheck"/>
-        </group>
-        -->
     </actions>
 
     <!-- Extensions -->

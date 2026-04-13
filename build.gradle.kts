@@ -1,14 +1,16 @@
-//build.gradle.kts
-
 plugins {
-    id("org.jetbrains.intellij") version "1.17.4"
-    kotlin("jvm") version "2.0.0"
+    id("org.jetbrains.intellij.platform") version "2.10.4"
+    kotlin("jvm") version "2.2.0"
 }
 
 group = "com.ontalent.ftcsnippets"
-version = "1.3.0"
+version = "1.3.1"
+
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 java {
@@ -16,35 +18,43 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-intellij {
-    version.set("2024.3.1")  // Updated for Otter
-    type.set("IC")
-    plugins.set(listOf("java"))
+intellijPlatform {
+    pluginConfiguration {
+        ideaVersion {
+            sinceBuild = "243"
+            untilBuild = "253.*"
+        }
+    }
 
-    // Speed optimizations
-    downloadSources.set(project.hasProperty("downloadSources"))
-    instrumentCode.set(project.hasProperty("productionBuild"))
+    buildSearchableOptions = false
+    //instrumentCode = project.hasProperty("productionBuild")
+}
+
+dependencies {
+    intellijPlatform {
+        intellijIdea("2025.3.4")  // Unified — replaces intellijIdeaCommunity()
+        bundledPlugin("com.intellij.java")
+
+        pluginVerifier()
+        zipSigner()
+        instrumentationTools()
+    }
 }
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
-    patchPluginXml {
-        sinceBuild.set("243")
-        untilBuild.set("252.*")  // Covers Otter releases
-    }
-
-    named<org.jetbrains.intellij.tasks.RunIdeTask>("runIde") {
+    runIde {
         jvmArgs = listOf("-Xmx1024m", "-XX:ReservedCodeCacheSize=512m")
-    }
-
-    named<org.jetbrains.intellij.tasks.BuildSearchableOptionsTask>("buildSearchableOptions") {
-        enabled = false
     }
 }

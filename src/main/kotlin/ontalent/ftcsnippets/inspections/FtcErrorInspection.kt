@@ -4,7 +4,6 @@ import com.intellij.codeInspection.*
 import com.intellij.psi.*
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.psi.util.PsiTreeUtil
 
 class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
 
