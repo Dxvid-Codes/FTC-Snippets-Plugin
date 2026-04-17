@@ -27,8 +27,7 @@
     <change-notes><![CDATA[
     <p><b>Changes: (sorry for the wait, im just a solo dev!)</b></p>
     <ul>
-        <li>Fixed Package issue, now it will be based on where the script lives instead of a set line</li>
-        <li>Expanded compatibility, now the plugin can be used on the latest version of android studio. as well as far back as 2023.1</li>
+        <li>Automatic Hardware maps, just make the variable and it creates the hardwareMap.get()</li>
 
     </ul>
     ]]></change-notes>

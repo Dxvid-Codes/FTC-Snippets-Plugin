@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.ui.Messages
 
 class SmartHardwareMapAction : AnAction("Generate HardwareMap") {
 
@@ -19,19 +20,35 @@ class SmartHardwareMapAction : AnAction("Generate HardwareMap") {
         val text = document.text
 
         // Match field declarations like: DcMotor leftFront;
-        // Anchored to start of line to avoid matching return statements etc.
-        val fieldRegex = Regex("""^\s*(${supportedTypes.joinToString("|")})\s+(\w+)\s*;""", RegexOption.MULTILINE)
+        val fieldRegex = Regex(
+            """^\s*(${supportedTypes.joinToString("|")})\s+(\w+)\s*;""",
+            RegexOption.MULTILINE
+        )
         val fields = fieldRegex.findAll(text)
             .map { it.groupValues[1] to it.groupValues[2] }
             .toList()
 
-        if (fields.isEmpty()) return
+        if (fields.isEmpty()) {
+            Messages.showInfoMessage(
+                project,
+                "No supported hardware field declarations found.\n\nDeclare fields like:\n  DcMotor leftFront;",
+                "Generate HardwareMap"
+            )
+            return
+        }
 
         val missing = fields.filterNot { (_, name) ->
             text.contains("$name = hardwareMap.get")
         }
 
-        if (missing.isEmpty()) return
+        if (missing.isEmpty()) {
+            Messages.showInfoMessage(
+                project,
+                "All hardware fields are already initialized.",
+                "Generate HardwareMap"
+            )
+            return
+        }
 
         val generated = buildString {
             append("\n        // Auto-generated HardwareMap\n")
@@ -40,15 +57,21 @@ class SmartHardwareMapAction : AnAction("Generate HardwareMap") {
             }
         }
 
-        // Insert inside the opening brace of init() or runOpMode()
+        // Match the opening brace of init() or runOpMode() regardless of modifiers/throws
         val insertOffset = run {
-            val methodIdx = text.indexOf("void init()")
-                .takeIf { it != -1 }
-                ?: text.indexOf("void runOpMode()")
-                    .takeIf { it != -1 }
-                ?: return@run editor.caretModel.offset
-            val braceIdx = text.indexOf('{', methodIdx)
-            if (braceIdx != -1) braceIdx + 1 else editor.caretModel.offset
+            val methodRegex = Regex("""(void\s+init|void\s+runOpMode)\s*\([^)]*\)[^{]*\{""")
+            val match = methodRegex.find(text)
+            if (match != null) {
+                match.range.last + 1
+            } else {
+                // Fall back to caret position and warn the user
+                Messages.showWarningDialog(
+                    project,
+                    "Could not find init() or runOpMode() — inserting at cursor position.",
+                    "Generate HardwareMap"
+                )
+                editor.caretModel.offset
+            }
         }
 
         WriteCommandAction.runWriteCommandAction(project) {
