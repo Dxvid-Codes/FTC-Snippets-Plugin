@@ -22,6 +22,6 @@ There are many ways to install the Plugin
    ```bash
    git clone https://github.com/username/ftc-snippets.git
    ```
-   - Create a build using gradlew.
+   - Create a build using gradle.
    - Export the .zip in build/distributions
    - Open Android Studio and instsll from disk in the plugins menu.
