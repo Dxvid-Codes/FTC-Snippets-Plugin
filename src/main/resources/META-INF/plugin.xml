@@ -100,6 +100,43 @@
                 text="Convert Roadrunner to Pedro"
                 description="Converts the Roadrunner coordinate system to Pedro's coordinate system"/>
 
+        <!-- New file generators (right-click in the Project view -> New -> FTC) -->
+        <action id="FTC.New.Autonomous"
+                class="ontalent.ftcsnippets.templates.CreateAutonomousOpModeAction"
+                text="Autonomous OpMode"
+                description="Generate a complete @Autonomous OpMode class"/>
+
+        <action id="FTC.New.TeleOp"
+                class="ontalent.ftcsnippets.templates.CreateTeleOpOpModeAction"
+                text="TeleOp OpMode"
+                description="Generate a complete @TeleOp OpMode class"/>
+
+        <action id="FTC.New.Subsystem"
+                class="ontalent.ftcsnippets.templates.CreateSubsystemAction"
+                text="Subsystem"
+                description="Generate a hardware subsystem class"/>
+
+        <action id="FTC.New.Command"
+                class="ontalent.ftcsnippets.templates.CreateCommandAction"
+                text="Command"
+                description="Generate a command class"/>
+
+        <action id="FTC.New.RobotContainer"
+                class="ontalent.ftcsnippets.templates.CreateRobotContainerAction"
+                text="Robot Container"
+                description="Generate a container that owns every subsystem"/>
+
+        <group id="FTC.New.Group" text="FTC" popup="true" icon="/icons/toolbar_icon.svg">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFromTemplate"/>
+
+            <reference ref="FTC.New.Autonomous"/>
+            <reference ref="FTC.New.TeleOp"/>
+            <separator/>
+            <reference ref="FTC.New.Subsystem"/>
+            <reference ref="FTC.New.Command"/>
+            <reference ref="FTC.New.RobotContainer"/>
+        </group>
+
         <!-- Main Toolbar Group -->
         <group id="FTC.Toolbar.Group" text="FTC Tools" popup="true" icon="/icons/toolbar_icon.svg">
             <add-to-group group-id="MainToolbarRight" anchor="last"/>
