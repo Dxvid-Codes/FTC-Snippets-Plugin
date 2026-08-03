@@ -149,6 +149,14 @@
 
     <!-- Extensions -->
     <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="ontalent.ftcsnippets.settings.FtcSnippetsSettings"/>
+
+        <applicationConfigurable
+                parentId="tools"
+                id="ontalent.ftcsnippets.settings"
+                displayName="FTC Snippets"
+                instance="ontalent.ftcsnippets.settings.FtcSnippetsConfigurable"/>
+
         <localInspection
                 language="JAVA"
                 shortName="FtcErrorInspection"
