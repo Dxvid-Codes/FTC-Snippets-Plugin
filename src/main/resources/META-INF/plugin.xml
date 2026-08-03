@@ -17,10 +17,26 @@
 
 <p><b>Features:</b></p>
 <ul>
+    <li><b>New &rarr; FTC</b> generates complete class files: Autonomous OpMode, TeleOp OpMode,
+        Subsystem, Command and Robot Container, in either plain FTC SDK or SolversLib
+        command-based style</li>
+    <li>Java and Kotlin throughout, for both the generators and the live templates</li>
+    <li>Live templates: <code>ftcmotor</code>, <code>ftcservo</code>, <code>ftcimu</code>,
+        <code>ftcstart</code>, <code>ftcloop</code>, <code>ftctel</code>,
+        <code>ftcmecanum</code> and more</li>
     <li>Adds imports for motors, servos, sensors, IMU, and vision</li>
-    <li>Optional injection of TeleOp and Autonomous skeleton code</li>
+    <li>Automatic hardware maps: declare the field and get the matching
+        <code>hardwareMap.get()</code></li>
+    <li>Error helper inspection with quick fixes for the classic FTC mistakes: a missing
+        <code>@TeleOp</code>/<code>@Autonomous</code> annotation, missing
+        <code>waitForStart()</code>, missing <code>telemetry.update()</code>, uninitialized
+        hardware, <code>Thread.sleep()</code>, and loops that ignore
+        <code>opModeIsActive()</code></li>
+    <li>Converts poses between the Pedro Pathing and RoadRunner coordinate systems</li>
     <li>Quickly search the FTC docs for a reference or sample code</li>
 </ul>
+
+<p>Defaults for the generators live under <b>Tools &rarr; FTC Snippets</b>.</p>
 
 <p>Boost your productivity and get your robot code running faster!</p>
 
@@ -29,10 +45,34 @@
 ]]></description>
 
     <change-notes><![CDATA[
-    <p><b>Changes: (sorry for the wait, im just a solo dev!)</b></p>
+    <p><b>1.5.0</b></p>
+    <ul>
+        <li><b>New &rarr; FTC</b>: generate complete class files from the Project view &mdash;
+            Autonomous OpMode, TeleOp OpMode, Subsystem, Command and Robot Container. Each one
+            asks for a class name and works out the package from the target directory.</li>
+        <li>Two framework flavors for every generator: plain FTC SDK, or SolversLib
+            command-based.</li>
+        <li>Subsystems can use the structured <code>read()</code> / <code>loop()</code> /
+            <code>write()</code> pattern.</li>
+        <li><b>Kotlin support</b>: every generator and every live template now has a Kotlin
+            version, and the import/skeleton actions no longer write Java syntax into
+            <code>.kt</code> files. The Kotlin plugin stays an optional dependency.</li>
+        <li>New live template set: <code>ftcmotor</code>, <code>ftcservo</code>,
+            <code>ftccrservo</code>, <code>ftcimu</code>, <code>ftcstart</code>,
+            <code>ftcloop</code>, <code>ftctel</code>, <code>ftcmecanum</code>,
+            <code>ftcteleop</code>, <code>ftcauto</code>.</li>
+        <li>New settings page under <b>Tools &rarr; FTC Snippets</b> for the default language,
+            framework and subsystem pattern.</li>
+        <li>Error helper: quick fixes now actually apply (they previously never ran), plus new
+            checks for a missing <code>@TeleOp</code>/<code>@Autonomous</code> annotation,
+            <code>Thread.sleep()</code>, loops that ignore <code>opModeIsActive()</code>, and
+            out-of-range <code>setPower()</code>/<code>setPosition()</code> values. Fewer false
+            positives on uninitialized hardware.</li>
+    </ul>
+
+    <p><b>1.4.0</b></p>
     <ul>
         <li>Automatic Hardware maps, just make the variable and it creates the hardwareMap.get()</li>
-
     </ul>
     ]]></change-notes>
 
