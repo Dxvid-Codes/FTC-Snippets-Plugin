@@ -43,9 +43,17 @@ Run the JetBrains Plugin Verifier against the supported IDE range:
 ./gradlew verifyPlugin
 ```
 
-There is no automated test suite yet. Until there is, smoke-test your change in
-`runIde` against a real FTC project (a `TeamCode` module) and say what you tried
-in the PR description.
+Run the tests:
+
+```bash
+./gradlew test
+```
+
+Coverage is currently limited to `FtcFileTemplates`, which renders every
+kind/language/framework/pattern combination and checks the result is well formed.
+Anything that touches the IDE (actions, inspections, the settings page) still has
+to be smoke-tested by hand: run `runIde`, open a real FTC project (a `TeamCode`
+module), and say what you tried in the PR description.
 
 ## Project layout
 
