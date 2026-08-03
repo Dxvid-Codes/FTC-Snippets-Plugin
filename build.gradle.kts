@@ -31,6 +31,14 @@ intellijPlatform {
         }
     }
 
+    // `./gradlew verifyPlugin` needs at least one IDE to check against, otherwise it
+    // fails outright. CONTRIBUTING tells contributors to run it, so give it a target.
+    pluginVerification {
+        ides {
+            recommended()
+        }
+    }
+
     buildSearchableOptions = false
     //instrumentCode = project.hasProperty("productionBuild")
 }
