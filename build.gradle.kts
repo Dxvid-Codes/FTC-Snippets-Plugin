@@ -35,6 +35,10 @@ dependencies {
         intellijIdea("2025.3.4")  // Unified — replaces intellijIdeaCommunity()
         bundledPlugin("com.intellij.java")
 
+        // Compile-time only: plugin.xml declares Kotlin as an *optional* dependency so
+        // Java-only users are never forced to install the Kotlin plugin.
+        bundledPlugin("org.jetbrains.kotlin")
+
         pluginVerifier()
         zipSigner()
         instrumentationTools()

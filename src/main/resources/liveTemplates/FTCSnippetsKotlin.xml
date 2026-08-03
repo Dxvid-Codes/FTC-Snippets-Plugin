@@ -1,0 +1,106 @@
+<templateSet group="FTC Snippets (Kotlin)">
+
+    <template name="ftcmotor"
+              value="val $NAME$ = hardwareMap.get(DcMotor::class.java, &quot;$NAME$&quot;)&#10;$NAME$.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE&#10;$END$"
+              description="FTC: get a DcMotor from the hardwareMap"
+              toReformat="true" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="&quot;motor&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftcservo"
+              value="val $NAME$ = hardwareMap.get(Servo::class.java, &quot;$NAME$&quot;)&#10;$END$"
+              description="FTC: get a Servo from the hardwareMap"
+              toReformat="true" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="&quot;servo&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftccrservo"
+              value="val $NAME$ = hardwareMap.get(CRServo::class.java, &quot;$NAME$&quot;)&#10;$END$"
+              description="FTC: get a continuous rotation Servo from the hardwareMap"
+              toReformat="true" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="&quot;crServo&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftcimu"
+              value="val imu = hardwareMap.get(IMU::class.java, &quot;imu&quot;)&#10;imu.initialize(&#10;IMU.Parameters(&#10;RevHubOrientationOnRobot(&#10;RevHubOrientationOnRobot.LogoFacingDirection.$LOGO$,&#10;RevHubOrientationOnRobot.UsbFacingDirection.$USB$&#10;)&#10;)&#10;)&#10;imu.resetYaw()&#10;$END$"
+              description="FTC: initialize the Control Hub IMU"
+              toReformat="true" toShortenFQNames="true">
+        <variable name="LOGO" expression="" defaultValue="&quot;UP&quot;" alwaysStopAt="true"/>
+        <variable name="USB" expression="" defaultValue="&quot;FORWARD&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftcstart"
+              value="waitForStart()&#10;if (isStopRequested) {&#10;return&#10;}&#10;$END$"
+              description="FTC: wait for start and bail out if stopped"
+              toReformat="true" toShortenFQNames="true">
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftcloop"
+              value="while (opModeIsActive()) {&#10;$END$&#10;}"
+              description="FTC: main OpMode loop"
+              toReformat="true" toShortenFQNames="true">
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftctel"
+              value="telemetry.addData(&quot;$KEY$&quot;, $VALUE$)&#10;telemetry.update()&#10;$END$"
+              description="FTC: add telemetry and push it to the Driver Station"
+              toReformat="true" toShortenFQNames="true">
+        <variable name="KEY" expression="" defaultValue="&quot;status&quot;" alwaysStopAt="true"/>
+        <variable name="VALUE" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftcmecanum"
+              value="val y = -gamepad1.left_stick_y.toDouble()&#10;val x = gamepad1.left_stick_x.toDouble() * 1.1&#10;val rx = gamepad1.right_stick_x.toDouble()&#10;&#10;val denominator = maxOf(kotlin.math.abs(y) + kotlin.math.abs(x) + kotlin.math.abs(rx), 1.0)&#10;$FL$.power = (y + x + rx) / denominator&#10;$BL$.power = (y - x + rx) / denominator&#10;$FR$.power = (y - x - rx) / denominator&#10;$BR$.power = (y + x - rx) / denominator&#10;$END$"
+              description="FTC: robot centric mecanum drive math"
+              toReformat="true" toShortenFQNames="true">
+        <variable name="FL" expression="" defaultValue="&quot;frontLeft&quot;" alwaysStopAt="true"/>
+        <variable name="BL" expression="" defaultValue="&quot;backLeft&quot;" alwaysStopAt="true"/>
+        <variable name="FR" expression="" defaultValue="&quot;frontRight&quot;" alwaysStopAt="true"/>
+        <variable name="BR" expression="" defaultValue="&quot;backRight&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftcteleop"
+              value="@TeleOp(name = &quot;$NAME$&quot;, group = &quot;TeleOp&quot;)&#10;class $NAME$ : LinearOpMode() {&#10;override fun runOpMode() {&#10;waitForStart()&#10;while (opModeIsActive()) {&#10;$END$&#10;}&#10;}&#10;}"
+              description="FTC: TeleOp OpMode class"
+              toReformat="true" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="&quot;MyTeleOp&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+    <template name="ftcauto"
+              value="@Autonomous(name = &quot;$NAME$&quot;, group = &quot;Autonomous&quot;)&#10;class $NAME$ : LinearOpMode() {&#10;override fun runOpMode() {&#10;waitForStart()&#10;if (isStopRequested) {&#10;return&#10;}&#10;$END$&#10;}&#10;}"
+              description="FTC: Autonomous OpMode class"
+              toReformat="true" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="&quot;MyAutonomous&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="KOTLIN" value="true"/>
+        </context>
+    </template>
+
+</templateSet>

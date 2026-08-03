@@ -7,6 +7,10 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>
 
+    <!-- Optional: only unlocks the Kotlin live templates. Kotlin file generation
+         works without it, because the generators emit plain text. -->
+    <depends optional="true" config-file="ftc-kotlin.xml">org.jetbrains.kotlin</depends>
+
     <description><![CDATA[
 <p><b>NOTE:</b> This only works with the FTC SDK. You must download that before using this plugin, otherwise it's pointless.</p>
 <p>FTC Snippets adds one-click code templates and import snippets for <b>FIRST Tech Challenge (FTC)</b> robot development.</p>
@@ -186,6 +190,8 @@
 
     <!-- Extensions -->
     <extensions defaultExtensionNs="com.intellij">
+        <defaultLiveTemplates file="/liveTemplates/FTCSnippets.xml"/>
+
         <applicationService serviceImplementation="ontalent.ftcsnippets.settings.FtcSnippetsSettings"/>
 
         <applicationConfigurable
