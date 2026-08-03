@@ -85,3 +85,10 @@ menu — was inspired by
 ## License
 
 [MIT](LICENSE)
+3. Clone the repository:  
+   ```bash
+   git clone https://github.com/username/ftc-snippets.git
+   ```
+   - Create a build using gradle.
+   - Find the .zip in build/distribution
+   - Open Android Studio and instsll from disk in the plugins menu.
