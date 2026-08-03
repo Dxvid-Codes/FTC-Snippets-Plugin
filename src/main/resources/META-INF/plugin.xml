@@ -7,16 +7,36 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>
 
+    <!-- Optional: only unlocks the Kotlin live templates. Kotlin file generation
+         works without it, because the generators emit plain text. -->
+    <depends optional="true" config-file="ftc-kotlin.xml">org.jetbrains.kotlin</depends>
+
     <description><![CDATA[
 <p><b>NOTE:</b> This only works with the FTC SDK. You must download that before using this plugin, otherwise it's pointless.</p>
 <p>FTC Snippets adds one-click code templates and import snippets for <b>FIRST Tech Challenge (FTC)</b> robot development.</p>
 
 <p><b>Features:</b></p>
 <ul>
+    <li><b>New &rarr; FTC</b> generates complete class files: Autonomous OpMode, TeleOp OpMode,
+        Subsystem, Command and Robot Container, in either plain FTC SDK or SolversLib
+        command-based style</li>
+    <li>Java and Kotlin throughout, for both the generators and the live templates</li>
+    <li>Live templates: <code>ftcmotor</code>, <code>ftcservo</code>, <code>ftcimu</code>,
+        <code>ftcstart</code>, <code>ftcloop</code>, <code>ftctel</code>,
+        <code>ftcmecanum</code> and more</li>
     <li>Adds imports for motors, servos, sensors, IMU, and vision</li>
-    <li>Optional injection of TeleOp and Autonomous skeleton code</li>
+    <li>Automatic hardware maps: declare the field and get the matching
+        <code>hardwareMap.get()</code></li>
+    <li>Error helper inspection with quick fixes for the classic FTC mistakes: a missing
+        <code>@TeleOp</code>/<code>@Autonomous</code> annotation, missing
+        <code>waitForStart()</code>, missing <code>telemetry.update()</code>, uninitialized
+        hardware, <code>Thread.sleep()</code>, and loops that ignore
+        <code>opModeIsActive()</code></li>
+    <li>Converts poses between the Pedro Pathing and RoadRunner coordinate systems</li>
     <li>Quickly search the FTC docs for a reference or sample code</li>
 </ul>
+
+<p>Defaults for the generators live under <b>Tools &rarr; FTC Snippets</b>.</p>
 
 <p>Boost your productivity and get your robot code running faster!</p>
 
@@ -25,15 +45,43 @@
 ]]></description>
 
     <change-notes><![CDATA[
-    <p><b>Changes: (sorry for the wait, im just a solo dev!)</b></p>
+    <p><b>1.5.0</b></p>
+    <ul>
+        <li><b>Works on the latest Android Studio again.</b> Built against IntelliJ Platform
+            2026.1, the base of Android Studio Quail (2026.1.x). The upper compatibility bound
+            is gone, so future Android Studio updates no longer lock you out of the plugin.
+            Android Studio Meerkat (2024.3) and newer are still supported.</li>
+        <li><b>New &rarr; FTC</b>: generate complete class files from the Project view &mdash;
+            Autonomous OpMode, TeleOp OpMode, Subsystem, Command and Robot Container. Each one
+            asks for a class name and works out the package from the target directory.</li>
+        <li>Two framework flavors for every generator: plain FTC SDK, or SolversLib
+            command-based.</li>
+        <li>Subsystems can use the structured <code>read()</code> / <code>loop()</code> /
+            <code>write()</code> pattern.</li>
+        <li><b>Kotlin support</b>: every generator and every live template now has a Kotlin
+            version, and the import/skeleton actions no longer write Java syntax into
+            <code>.kt</code> files. The Kotlin plugin stays an optional dependency.</li>
+        <li>New live template set: <code>ftcmotor</code>, <code>ftcservo</code>,
+            <code>ftccrservo</code>, <code>ftcimu</code>, <code>ftcstart</code>,
+            <code>ftcloop</code>, <code>ftctel</code>, <code>ftcmecanum</code>,
+            <code>ftcteleop</code>, <code>ftcauto</code>.</li>
+        <li>New settings page under <b>Tools &rarr; FTC Snippets</b> for the default language,
+            framework and subsystem pattern.</li>
+        <li>Error helper: quick fixes now actually apply (they previously never ran), plus new
+            checks for a missing <code>@TeleOp</code>/<code>@Autonomous</code> annotation,
+            <code>Thread.sleep()</code>, loops that ignore <code>opModeIsActive()</code>, and
+            out-of-range <code>setPower()</code>/<code>setPosition()</code> values. Fewer false
+            positives on uninitialized hardware.</li>
+    </ul>
+
+    <p><b>1.4.0</b></p>
     <ul>
         <li>Automatic Hardware maps, just make the variable and it creates the hardwareMap.get()</li>
-
     </ul>
     ]]></change-notes>
 
     <!-- IntelliJ build compatibility -->
-    <idea-version since-build="243" until-build="252.*"/>
+    <idea-version since-build="243"/>
 
     <!-- Actions -->
     <actions>
@@ -100,6 +148,43 @@
                 text="Convert Roadrunner to Pedro"
                 description="Converts the Roadrunner coordinate system to Pedro's coordinate system"/>
 
+        <!-- New file generators (right-click in the Project view -> New -> FTC) -->
+        <action id="FTC.New.Autonomous"
+                class="ontalent.ftcsnippets.templates.CreateAutonomousOpModeAction"
+                text="Autonomous OpMode"
+                description="Generate a complete @Autonomous OpMode class"/>
+
+        <action id="FTC.New.TeleOp"
+                class="ontalent.ftcsnippets.templates.CreateTeleOpOpModeAction"
+                text="TeleOp OpMode"
+                description="Generate a complete @TeleOp OpMode class"/>
+
+        <action id="FTC.New.Subsystem"
+                class="ontalent.ftcsnippets.templates.CreateSubsystemAction"
+                text="Subsystem"
+                description="Generate a hardware subsystem class"/>
+
+        <action id="FTC.New.Command"
+                class="ontalent.ftcsnippets.templates.CreateCommandAction"
+                text="Command"
+                description="Generate a command class"/>
+
+        <action id="FTC.New.RobotContainer"
+                class="ontalent.ftcsnippets.templates.CreateRobotContainerAction"
+                text="Robot Container"
+                description="Generate a container that owns every subsystem"/>
+
+        <group id="FTC.New.Group" text="FTC" popup="true" icon="/icons/toolbar_icon.svg">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFromTemplate"/>
+
+            <reference ref="FTC.New.Autonomous"/>
+            <reference ref="FTC.New.TeleOp"/>
+            <separator/>
+            <reference ref="FTC.New.Subsystem"/>
+            <reference ref="FTC.New.Command"/>
+            <reference ref="FTC.New.RobotContainer"/>
+        </group>
+
         <!-- Main Toolbar Group -->
         <group id="FTC.Toolbar.Group" text="FTC Tools" popup="true" icon="/icons/toolbar_icon.svg">
             <add-to-group group-id="MainToolbarRight" anchor="last"/>
@@ -149,6 +234,16 @@
 
     <!-- Extensions -->
     <extensions defaultExtensionNs="com.intellij">
+        <defaultLiveTemplates file="/liveTemplates/FTCSnippets.xml"/>
+
+        <applicationService serviceImplementation="ontalent.ftcsnippets.settings.FtcSnippetsSettings"/>
+
+        <applicationConfigurable
+                parentId="tools"
+                id="ontalent.ftcsnippets.settings"
+                displayName="FTC Snippets"
+                instance="ontalent.ftcsnippets.settings.FtcSnippetsConfigurable"/>
+
         <localInspection
                 language="JAVA"
                 shortName="FtcErrorInspection"

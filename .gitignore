@@ -5,6 +5,11 @@ build/
 !**/src/test/**/build/
 .kotlin
 
+### IntelliJ Platform Gradle Plugin ###
+# Downloaded IDE dependencies and self-update state - build cache, not source.
+.intellijPlatform/
+local.properties
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
