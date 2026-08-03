@@ -47,6 +47,10 @@
     <change-notes><![CDATA[
     <p><b>1.5.0</b></p>
     <ul>
+        <li><b>Works on the latest Android Studio again.</b> Built against IntelliJ Platform
+            2026.1, the base of Android Studio Quail (2026.1.x). The upper compatibility bound
+            is gone, so future Android Studio updates no longer lock you out of the plugin.
+            Android Studio Meerkat (2024.3) and newer are still supported.</li>
         <li><b>New &rarr; FTC</b>: generate complete class files from the Project view &mdash;
             Autonomous OpMode, TeleOp OpMode, Subsystem, Command and Robot Container. Each one
             asks for a class name and works out the package from the target directory.</li>
@@ -77,7 +81,7 @@
     ]]></change-notes>
 
     <!-- IntelliJ build compatibility -->
-    <idea-version since-build="243" until-build="252.*"/>
+    <idea-version since-build="243"/>
 
     <!-- Actions -->
     <actions>

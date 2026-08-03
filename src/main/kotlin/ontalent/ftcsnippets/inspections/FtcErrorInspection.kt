@@ -175,7 +175,7 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
     }
 
     private fun checkUninitializedHardware(field: PsiField, holder: ProblemsHolder) {
-        val fieldName = field.name ?: return
+        val fieldName = field.name
         val fieldType = field.type.canonicalText
 
         // Check if this is an FTC hardware type
@@ -187,7 +187,7 @@ class FtcErrorInspection : AbstractBaseJavaLocalInspectionTool() {
 
             if (!isInitialized) {
                 holder.registerProblem(
-                    field.nameIdentifier ?: field,
+                    field.nameIdentifier,
                     "Hardware device '$fieldName' not initialized with hardwareMap",
                     ProblemHighlightType.ERROR,
                     InitializeHardwareFix(fieldName, extractShortType(fieldType))

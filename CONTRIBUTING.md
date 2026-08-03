@@ -5,7 +5,8 @@ focused pull requests are much easier to land than large ones.
 
 ## Prerequisites
 
-- **JDK 17** or newer (the IntelliJ Platform 2025.3 toolchain itself runs on 21)
+- **JDK 21** or newer (required by IntelliJ Platform 2026.1, the base of Android
+  Studio Quail)
 - No local IDE install is needed — Gradle downloads the matching IntelliJ
   Platform on the first build. Expect the first run to take a while.
 

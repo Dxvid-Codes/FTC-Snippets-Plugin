@@ -45,7 +45,7 @@ fallback base package.
 
 ## Building from Source
 
-Requires JDK 17 or newer. Gradle downloads the matching IntelliJ Platform on the
+Requires JDK 21 or newer. Gradle downloads the matching IntelliJ Platform on the
 first build, so expect that one to be slow. On Windows use `gradlew.bat` instead
 of `./gradlew`.
 
