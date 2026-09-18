@@ -45,6 +45,15 @@
 ]]></description>
 
     <change-notes><![CDATA[
+    <p><b>1.5.1</b></p>
+    <ul>
+        <li>The <b>New &rarr; FTC</b> menu no longer depends on a platform action ID that
+            Android Studio may not expose, so it reliably appears in the Project view.</li>
+        <li>Confirmed compatible with Android Studio Quail 4 (2026.1.4) and verified clean
+            against the 2026.2 platform that Android Studio Rabbit is built on.</li>
+        <li>README clean-up.</li>
+    </ul>
+
     <p><b>1.5.0</b></p>
     <ul>
         <li><b>Works on the latest Android Studio again.</b> Built against IntelliJ Platform
@@ -175,7 +184,9 @@
                 description="Generate a container that owns every subsystem"/>
 
         <group id="FTC.New.Group" text="FTC" popup="true" icon="/icons/toolbar_icon.svg">
-            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFromTemplate"/>
+            <!-- No relative-to-action: Android Studio and IDEA do not share every action ID
+                 in the New menu, and an unresolvable anchor can hide the whole group. -->
+            <add-to-group group-id="NewGroup" anchor="last"/>
 
             <reference ref="FTC.New.Autonomous"/>
             <reference ref="FTC.New.TeleOp"/>
